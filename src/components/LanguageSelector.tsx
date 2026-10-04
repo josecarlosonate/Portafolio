@@ -35,7 +35,7 @@ function LanguageSelector({ language, setLanguage, theme }: LanguageSelectorProp
                                 const isSelected = language === code;
                                 return (
                                     <button className={`flex items-center gap-3 w-full p-2 rounded-md text-blue-400 cursor-pointer ${isSelected ? (theme === "dark" ? "bg-white/5" : "bg-slate-200") : ""}`}
-                                        key={code} type="button" onClick={() => setLanguage(code)}>
+                                        key={code} type="button" onClick={() => { setLanguage(code), setIsOpen(false) }}>
                                         <Check size={15} className={isSelected ? "visible" : "invisible"} />
                                         <img src={flag} alt="" className="w-5" />
                                         <span className={`font-medium ${theme === "dark" ? "text-slate-300" : "text-slate-700"}`}>{name}</span>
