@@ -22,7 +22,11 @@ const navItems = [
 
 function Navbar({ language, setLanguage, theme, setTheme }: NavbarProps) {
     const translations = NavbarTranslations[language];
-    const toggleTheme = () => setTheme(theme === "dark" ? "light" : "dark");
+    const toggleTheme = () => {
+        const newTheme = theme === "dark" ? "light" : "dark";
+        setTheme(newTheme)
+        localStorage.setItem('theme', newTheme)
+    };
     return (
         <header className={`w-full border-b ${theme === "dark" ? "border-white/10 bg-slate-950" : "border-slate-200 bg-white"}`}>
             <nav className="mx-auto flex h-18 max-w-7xl items-center justify-between px-4 sm:px-6 lg:px-8">
