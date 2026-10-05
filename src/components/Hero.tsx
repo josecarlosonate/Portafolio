@@ -2,9 +2,12 @@ import { BriefcaseBusiness, Download } from "lucide-react";
 import type { Theme } from "../types/theme";
 import { SiPhp, SiLaravel, SiReact, SiTypescript, SiPostgresql, SiGraphql } from "react-icons/si";
 import { FaEnvelope, FaGithub, FaLinkedin } from "react-icons/fa";
+import type { Language } from "../types/language";
+import { HeroTranslations } from "../translations/hero";
 
 type HeroProps = {
-    theme: Theme
+    theme: Theme,
+    language: Language
 }
 
 const technologies = [
@@ -16,7 +19,8 @@ const technologies = [
     { name: "GraphQL", icon: SiGraphql, color: "#E10098" },
 ];
 
-function Hero({ theme }: HeroProps) {
+function Hero({ language, theme }: HeroProps) {
+    const translations = HeroTranslations[language];
     const highlightText = theme === "dark"
         ? "font-bold text-blue-400"
         : "font-bold text-slate-600";
@@ -32,7 +36,7 @@ function Hero({ theme }: HeroProps) {
                 <div className="mx-auto grid min-h-screen max-w-7xl grid-cols-1 items-start gap-10 px-6 pt-20 lg:grid-cols-[1.1fr_0.9fr] lg:pt-24">
                     <div className="flex flex-col items-start">
                         <p className="mb-2 text-xl font-semibold md:text-2xl">
-                            Hola, soy
+                            {translations.greeting}
                         </p>
                         <h1 className="text-4xl font-bold text-blue-600 md:text-5xl lg:text-6xl">
                             José Carlos Oñate
@@ -45,15 +49,15 @@ function Hero({ theme }: HeroProps) {
                         <p className={`mt-5 max-w-xl text-lg leading-relaxed 
                             ${theme === "dark" ? "text-slate-300" : "text-slate-600"}`}
                         >
-                            Desarrollador de software especializado en{" "}
-                            <strong className={highlightText}>PHP y Laravel</strong>,
-                            con experiencia construyendo aplicaciones web,{" "}
-                            <strong className={highlightText}>APIs</strong> e integraciones.
-                            Desarrollo interfaces modernas con{" "}
-                            <strong className={highlightText}>React y TypeScript</strong>,
-                            combinando{" "}
-                            <strong className={highlightText}>backend y frontend</strong>{" "}
-                            para crear soluciones completas.
+                            {translations.description.intro}{" "}
+                            <strong className={highlightText}>{translations.description.phpLaravel}</strong>{" "}
+                            {translations.description.experience}{" "}
+                            <strong className={highlightText}>{translations.description.apis}</strong>{" "}
+                            {translations.description.integrations}{" "}
+                            <strong className={highlightText}>{translations.description.reactTypescript}</strong>{" "}
+                            {translations.description.combining}{" "}
+                            <strong className={highlightText}>{translations.description.backendFrontend}</strong>{" "}
+                            {translations.description.conclusion}
                         </p>
 
                         <div className="mt-6 flex flex-wrap gap-3 lg:w-max">
@@ -76,7 +80,7 @@ function Hero({ theme }: HeroProps) {
                                 transition-colors hover:bg-blue-700"
                             >
                                 <BriefcaseBusiness size={18} />
-                                Ver mis proyectos
+                                {translations.actions.projects}
                             </a>
                             <a href="/cv-jose-carlos-onate.pdf"
                                 download
@@ -86,7 +90,7 @@ function Hero({ theme }: HeroProps) {
                                         : "border-slate-300 hover:bg-slate-100"
                                     }`}
                             >
-                                Descargar CV
+                                {translations.actions.downloadCv}
                                 <Download size={18} />
                             </a>
                         </div>
@@ -98,7 +102,7 @@ function Hero({ theme }: HeroProps) {
                             <a href="https://www.linkedin.com/in/josecarlosonate" target="_blank" rel="noopener noreferrer" aria-label="LinkedIn" >
                                 <FaLinkedin className={socialIconClass} />
                             </a>
-                            <a href="mailto:TU_CORREO" aria-label="Email" >
+                            <a href="mailto:ingeniero.josec@gmail.com" aria-label="Email" >
                                 <FaEnvelope className={socialIconClass} />
                             </a>
                         </div>

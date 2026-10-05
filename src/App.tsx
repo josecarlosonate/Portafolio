@@ -21,7 +21,7 @@ function App() {
   return (
     <>
       <Navbar language={language} setLanguage={setLanguage} theme={theme} setTheme={setTheme} />
-      <Hero theme={theme} />
+      <Hero theme={theme} language={language} />
     </>
   );
 }
