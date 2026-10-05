@@ -9,7 +9,11 @@ type MagneticDotGridProps = {
   activeColor?: string;
 };
 
+type Ripple = { x: number; y: number; born: number };
+
 const PULSE_MS = 900;
+const RIPPLE_MS = 1100;
+const MAX_RIPPLES = 7;
 
 export default function MagneticDotGrid({
   gap = 28,
@@ -29,6 +33,8 @@ export default function MagneticDotGrid({
 
     const pointer = { x: -9999, y: -9999, inside: false };
     const smooth = { x: -9999, y: -9999 };
+    const lastRipple = { x: -9999, y: -9999 };
+    const ripples: Ripple[] = [];
     const pulse = { x: 0, y: 0, start: 0, active: false };
     let raf = 0;
     let running = true;
@@ -53,12 +59,22 @@ export default function MagneticDotGrid({
       };
     };
 
+    const spawnRipple = (x: number, y: number, now: number) => {
+      ripples.push({ x, y, born: now });
+      if (ripples.length > MAX_RIPPLES) ripples.shift();
+      lastRipple.x = x;
+      lastRipple.y = y;
+    };
+
     const onMove = (event: PointerEvent) => {
       const local = toLocal(event);
       pointer.inside = local.inside;
       if (!local.inside) return;
       pointer.x = local.x;
       pointer.y = local.y;
+      if (Math.hypot(local.x - lastRipple.x, local.y - lastRipple.y) > 34) {
+        spawnRipple(local.x, local.y, performance.now());
+      }
     };
 
     const onLeave = () => {
@@ -75,6 +91,7 @@ export default function MagneticDotGrid({
       pulse.y = local.y;
       pulse.start = performance.now();
       pulse.active = true;
+      spawnRipple(local.x, local.y, pulse.start);
     };
 
     const draw = () => {
@@ -84,18 +101,19 @@ export default function MagneticDotGrid({
       const height = canvas.offsetHeight;
       const now = performance.now();
 
-      smooth.x += (pointer.x - smooth.x) * 0.18;
-      smooth.y += (pointer.y - smooth.y) * 0.18;
+      // el cuerpo de la zona va detrás del cursor: eso es lo líquido
+      smooth.x += (pointer.x - smooth.x) * 0.08;
+      smooth.y += (pointer.y - smooth.y) * 0.08;
 
       let beat = 0;
       if (pulse.active) {
         const elapsed = (now - pulse.start) / PULSE_MS;
-        if (elapsed >= 1) {
-          pulse.active = false;
-        } else {
-          // dos latidos que se apagan: el segundo más suave
-          beat = Math.max(0, Math.sin(elapsed * Math.PI * 2)) * (1 - elapsed);
-        }
+        if (elapsed >= 1) pulse.active = false;
+        else beat = Math.max(0, Math.sin(elapsed * Math.PI * 2)) * (1 - elapsed);
+      }
+
+      for (let i = ripples.length - 1; i >= 0; i--) {
+        if (now - ripples[i].born > RIPPLE_MS) ripples.splice(i, 1);
       }
 
       ctx.clearRect(0, 0, width, height);
@@ -105,6 +123,7 @@ export default function MagneticDotGrid({
       const offsetX = (width - (cols - 1) * gap) / 2;
       const offsetY = (height - (rows - 1) * gap) / 2;
       const pulseReach = influence * (1 + beat * 0.45);
+      const maxShift = gap * 0.22;
 
       for (let row = 0; row < rows; row++) {
         for (let col = 0; col < cols; col++) {
@@ -117,6 +136,28 @@ export default function MagneticDotGrid({
           const t = Math.max(0, 1 - dist / influence);
           const eased = t * t * (3 - 2 * t);
 
+          let wave = 0;
+          let shiftX = 0;
+          let shiftY = 0;
+
+          for (const ripple of ripples) {
+            const rx = x - ripple.x;
+            const ry = y - ripple.y;
+            const rDist = Math.hypot(rx, ry);
+            const age = (now - ripple.born) / RIPPLE_MS;
+            const ring = age * influence * 1.35;
+            const band = Math.exp(-((rDist - ring) * (rDist - ring)) / (2 * 28 * 28));
+            const crest = Math.sin(rDist * 0.085 - age * Math.PI * 3);
+            const amp = band * (1 - age) * crest;
+            wave += amp;
+            if (rDist > 0.001) {
+              shiftX += (rx / rDist) * amp * maxShift;
+              shiftY += (ry / rDist) * amp * maxShift;
+            }
+          }
+
+          wave = Math.max(-1, Math.min(1, wave));
+
           let throb = 0;
           if (beat > 0) {
             const pDist = Math.hypot(pulse.x - x, pulse.y - y);
@@ -124,16 +165,20 @@ export default function MagneticDotGrid({
             throb = pt * pt * (3 - 2 * pt) * beat;
           }
 
-          const strength = Math.min(1, eased + throb);
-          const radius =
+          const crestStrength = Math.max(0, wave);
+          const strength = Math.min(1, eased + throb + crestStrength * 0.85);
+          const radius = Math.max(
+            1.2,
             baseRadius +
-            (maxRadius - baseRadius) * eased +
-            (maxRadius - baseRadius) * 0.85 * throb;
+              (maxRadius - baseRadius) * eased +
+              (maxRadius - baseRadius) * 0.85 * throb +
+              (maxRadius - baseRadius) * 0.55 * wave,
+          );
 
           ctx.beginPath();
           ctx.fillStyle = strength > 0.08 ? activeColor : baseColor;
-          ctx.globalAlpha = 0.55 + strength * 0.45;
-          ctx.arc(x, y, radius, 0, Math.PI * 2);
+          ctx.globalAlpha = 0.5 + strength * 0.5;
+          ctx.arc(x + shiftX, y + shiftY, radius, 0, Math.PI * 2);
           ctx.fill();
         }
       }
@@ -145,8 +190,6 @@ export default function MagneticDotGrid({
     const motionQuery = window.matchMedia("(prefers-reduced-motion: reduce)");
     if (motionQuery.matches) {
       resize();
-      pointer.x = -9999;
-      pointer.y = -9999;
       running = false;
       const width = canvas.offsetWidth;
       const height = canvas.offsetHeight;
@@ -165,9 +208,7 @@ export default function MagneticDotGrid({
         }
       }
       ctx.globalAlpha = 1;
-      return () => {
-        cancelAnimationFrame(raf);
-      };
+      return () => cancelAnimationFrame(raf);
     }
 
     resize();
