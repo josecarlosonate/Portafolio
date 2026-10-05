@@ -20,6 +20,7 @@
   --color-theme-track: var(--theme-track);
   --color-theme-thumb: var(--theme-thumb);
   --color-theme-thumb-foreground: var(--theme-thumb-foreground);
+  --shadow-surface: var(--surface-shadow);
 }
 
 
@@ -43,6 +44,8 @@
   --theme-track: #e2e8f0;
   --theme-thumb: #ffffff;
   --theme-thumb-foreground: #0f172a;
+  --surface-shadow: 0 2px 6px rgb(15 23 42 / 0.06), 
+    0 8px 18px rgb(15 23 42 / 0.08);
 }
 
 .dark {
@@ -65,6 +68,9 @@
   --theme-track: rgb(255 255 255 / 0.1);
   --theme-thumb: #000000;
   --theme-thumb-foreground: #ffffff;
+  --surface-shadow: 0 4px 12px rgb(0 0 0 / 0.45),
+    0 12px 30px rgb(0 0 0 / 0.35),
+    0 0 16px rgb(59 130 246 / 0.10);
 }
 
 * {
