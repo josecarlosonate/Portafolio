@@ -31,7 +31,7 @@ function Navbar({ language, setLanguage, theme, setTheme }: NavbarProps) {
     const [isMenuOpen, setIsMenuOpen] = useState(false);
     return (
         <header className={`w-full border-b ${theme === "dark" ? "border-white/10 bg-slate-950" : "border-slate-200 bg-white"}`}>
-            <nav className="relative mx-auto flex h-18 max-w-7xl items-center justify-between px-4 sm:px-6 lg:px-8">
+            <nav className="relative z-10 mx-auto flex h-18 max-w-7xl items-center justify-between px-4 sm:px-6 lg:px-8">
                 <a href="#home" className="flex items-center gap-5" aria-label="Ir al inicio" >
                     <span className="text-[30px] font-bold leading-none tracking-wide text-blue-500">
                         JO
