@@ -3,7 +3,7 @@ import { ArrowRight, BriefcaseBusiness, CircleCheck, CodeXml, UserRound } from "
 export default function About() {
     return (
         <section id="about" className="bg-background">
-            <div className="mx-auto w-full max-w-7xl px-6 py-16">
+            <div className="relative z-10 mx-auto w-full max-w-7xl px-6 py-16">
                 <div className="grid rounded-2xl border border-border bg-surface pb-4 shadow-surface md:grid-cols-3">
                     <div className="p-6">
                         <div className="flex items-center gap-3">
