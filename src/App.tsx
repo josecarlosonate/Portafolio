@@ -29,9 +29,9 @@ function App() {
     <>
       <Navbar language={language} setLanguage={setLanguage} theme={theme} setTheme={setTheme} />
 
-      <div className="relative z-10">
+      <div className="relative z-10 bg-background">
         <Hero language={language} />
-        <About />
+        <About language={language} />
 
         <div className="absolute inset-0 z-0">
           <DotGrid dotSize={4} gap={24}

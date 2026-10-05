@@ -23,7 +23,7 @@ function Hero({ language }: HeroProps) {
 
     return (
         <>
-            <section id="home" className="w-full min-h-screen bg-background text-foreground">
+            <section id="home" className="w-full min-h-screen text-foreground">
                 <div className="relative z-10 mx-auto grid min-h-screen max-w-7xl grid-cols-1 
                     items-start gap-10 px-6 pt-20 lg:grid-cols-[1.1fr_0.9fr] lg:pt-24">
                     <div className="flex flex-col items-start">
