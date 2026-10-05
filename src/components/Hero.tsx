@@ -4,6 +4,7 @@ import { SiPhp, SiLaravel, SiReact, SiTypescript, SiPostgresql, SiGraphql } from
 import { FaEnvelope, FaGithub, FaLinkedin } from "react-icons/fa";
 import type { Language } from "../types/language";
 import { HeroTranslations } from "../translations/hero";
+import DotGrid from "./DotGrid/DotGrid";
 
 type HeroProps = {
     theme: Theme,
@@ -33,7 +34,21 @@ function Hero({ language, theme }: HeroProps) {
             <section id="home" className={`relative w-full min-h-screen 
                 ${theme === "dark" ? "bg-slate-950 text-white" : "bg-white text-slate-950"}`}
             >
-                <div className="mx-auto grid min-h-screen max-w-7xl grid-cols-1 items-start gap-10 px-6 pt-20 lg:grid-cols-[1.1fr_0.9fr] lg:pt-24">
+                <div className="absolute inset-0 z-0">
+                    <DotGrid
+                        dotSize={3}
+                        gap={24}
+                        baseColor={theme === "dark" ? "#1E293B" : "#E2E8F0"}
+                        activeColor={theme === "dark" ? "#60A5FA" : "#2563EB"}
+                        proximity={120}
+                        shockRadius={250}
+                        shockStrength={5}
+                        resistance={750}
+                        returnDuration={1.5}
+                    />
+                </div>
+
+                <div className="relative z-10 mx-auto grid min-h-screen max-w-7xl grid-cols-1 items-start gap-10 px-6 pt-20 lg:grid-cols-[1.1fr_0.9fr] lg:pt-24">
                     <div className="flex flex-col items-start">
                         <p className="mb-2 text-xl font-semibold md:text-2xl">
                             {translations.greeting}
