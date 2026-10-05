@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import Navbar from "./components/Navbar";
 import type { Language } from "./types/language";
 import type { Theme } from "./types/theme";
@@ -17,6 +17,10 @@ function getInitialTheme(): Theme {
 function App() {
   const [language, setLanguage] = useState<Language>("ES");
   const [theme, setTheme] = useState<Theme>(getInitialTheme);
+
+  useEffect(() => {
+    document.documentElement.classList.toggle("dark", theme === "dark");
+  }, [theme]);
 
   return (
     <>
