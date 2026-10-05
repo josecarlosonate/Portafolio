@@ -3,6 +3,7 @@ import Navbar from "./components/Navbar";
 import type { Language } from "./types/language";
 import type { Theme } from "./types/theme";
 import Hero from "./components/Hero";
+import About from "./components/About";
 
 function getInitialTheme(): Theme {
   const savedTheme = localStorage.getItem("theme");
@@ -26,6 +27,7 @@ function App() {
     <>
       <Navbar language={language} setLanguage={setLanguage} theme={theme} setTheme={setTheme} />
       <Hero theme={theme} language={language} />
+      <About />
     </>
   );
 }
