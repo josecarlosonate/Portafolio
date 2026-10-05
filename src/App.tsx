@@ -2,6 +2,7 @@ import { useState } from "react";
 import Navbar from "./components/Navbar";
 import type { Language } from "./types/language";
 import type { Theme } from "./types/theme";
+import Hero from "./components/Hero";
 
 function getInitialTheme(): Theme {
   const savedTheme = localStorage.getItem("theme");
@@ -20,12 +21,7 @@ function App() {
   return (
     <>
       <Navbar language={language} setLanguage={setLanguage} theme={theme} setTheme={setTheme} />
-      <main
-        className={`min-h-screen p-10 ${theme === "dark"
-          ? "bg-slate-950 text-white"
-          : "bg-white text-slate-950"
-          }`}
-      ></main>
+      <Hero theme={theme} language={language} />
     </>
   );
 }
