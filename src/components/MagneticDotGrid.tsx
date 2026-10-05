@@ -1,202 +1,228 @@
 import { useEffect, useRef } from "react";
 
 type MagneticDotGridProps = {
+  dotSize?: number;
   gap?: number;
-  baseRadius?: number;
-  maxRadius?: number;
-  influence?: number;
   baseColor?: string;
   activeColor?: string;
+  proximity?: number;
+  speedTrigger?: number;
+  shockRadius?: number;
+  shockStrength?: number;
+  returnDuration?: number;
 };
 
-const PULSE_MS = 900;
+type Dot = {
+  cx: number;
+  cy: number;
+  x: number;
+  y: number;
+  vx: number;
+  vy: number;
+  busy: boolean;
+};
+
+function parseColor(hex: string) {
+  const value = hex.replace("#", "");
+  const full = value.length === 3 ? value.split("").map((c) => c + c).join("") : value;
+  return {
+    r: parseInt(full.slice(0, 2), 16),
+    g: parseInt(full.slice(2, 4), 16),
+    b: parseInt(full.slice(4, 6), 16),
+    a: full.length >= 8 ? parseInt(full.slice(6, 8), 16) / 255 : 1,
+  };
+}
 
 export default function MagneticDotGrid({
-  gap = 28,
-  baseRadius = 2.2,
-  maxRadius = 4.6,
-  influence = 160,
-  baseColor = "#c5e6da",
-  activeColor = "#0f6b5c",
+  dotSize = 6,
+  gap = 30,
+  baseColor = "#22C55E33",
+  activeColor = "#22C55E",
+  proximity = 140,
+  speedTrigger = 100,
+  shockRadius = 220,
+  shockStrength = 4,
+  returnDuration = 1.2,
 }: MagneticDotGridProps) {
+  const wrapRef = useRef<HTMLDivElement>(null);
   const canvasRef = useRef<HTMLCanvasElement>(null);
 
   useEffect(() => {
+    const wrap = wrapRef.current;
     const canvas = canvasRef.current;
-    if (!canvas) return;
+    if (!wrap || !canvas) return;
     const ctx = canvas.getContext("2d");
     if (!ctx) return;
 
-    const pointer = { x: -9999, y: -9999, inside: false };
-    const smooth = { x: -9999, y: -9999 };
-    const pulse = { x: 0, y: 0, start: 0, active: false };
+    const base = parseColor(baseColor);
+    const active = parseColor(activeColor);
+    const dots: Dot[] = [];
+    const pointer = { x: -9999, y: -9999, vx: 0, vy: 0, speed: 0, lastX: 0, lastY: 0, lastTime: 0 };
     let raf = 0;
     let running = true;
+    let lastFrame = performance.now();
 
-    const resize = () => {
+    const build = () => {
+      const rect = wrap.getBoundingClientRect();
       const dpr = Math.min(window.devicePixelRatio || 1, 2);
-      canvas.width = canvas.offsetWidth * dpr;
-      canvas.height = canvas.offsetHeight * dpr;
+      canvas.width = rect.width * dpr;
+      canvas.height = rect.height * dpr;
+      canvas.style.width = `${rect.width}px`;
+      canvas.style.height = `${rect.height}px`;
       ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
-    };
 
-    const toLocal = (event: PointerEvent) => {
-      const rect = canvas.getBoundingClientRect();
-      return {
-        x: event.clientX - rect.left,
-        y: event.clientY - rect.top,
-        inside:
-          event.clientX >= rect.left &&
-          event.clientX <= rect.right &&
-          event.clientY >= rect.top &&
-          event.clientY <= rect.bottom,
-      };
-    };
-
-    const onMove = (event: PointerEvent) => {
-      const local = toLocal(event);
-      pointer.inside = local.inside;
-      if (!local.inside) return;
-      pointer.x = local.x;
-      pointer.y = local.y;
-    };
-
-    const onLeave = () => {
-      pointer.inside = false;
-      pointer.x = -9999;
-      pointer.y = -9999;
-    };
-
-    const onDown = (event: PointerEvent) => {
-      if (event.button !== 0) return;
-      const local = toLocal(event);
-      if (!local.inside) return;
-      pulse.x = local.x;
-      pulse.y = local.y;
-      pulse.start = performance.now();
-      pulse.active = true;
-    };
-
-    const draw = () => {
-      if (!running) return;
-
-      const width = canvas.offsetWidth;
-      const height = canvas.offsetHeight;
-      const now = performance.now();
-
-      smooth.x += (pointer.x - smooth.x) * 0.2;
-      smooth.y += (pointer.y - smooth.y) * 0.2;
-
-      let beat = 0;
-      if (pulse.active) {
-        const elapsed = (now - pulse.start) / PULSE_MS;
-        if (elapsed >= 1) pulse.active = false;
-        else beat = Math.max(0, Math.sin(elapsed * Math.PI * 2)) * (1 - elapsed);
-      }
-
-      ctx.clearRect(0, 0, width, height);
-
-      const cols = Math.ceil(width / gap) + 1;
-      const rows = Math.ceil(height / gap) + 1;
-      const offsetX = (width - (cols - 1) * gap) / 2;
-      const offsetY = (height - (rows - 1) * gap) / 2;
-      const maxShift = gap * 0.16;
+      dots.length = 0;
+      const step = dotSize + gap;
+      const cols = Math.floor((rect.width + gap) / step);
+      const rows = Math.floor((rect.height + gap) / step);
+      const gridW = step * cols - gap;
+      const gridH = step * rows - gap;
+      const originX = (rect.width - gridW) / 2 + dotSize / 2;
+      const originY = (rect.height - gridH) / 2 + dotSize / 2;
 
       for (let row = 0; row < rows; row++) {
         for (let col = 0; col < cols; col++) {
-          const x = offsetX + col * gap;
-          const y = offsetY + row * gap;
-          const dx = smooth.x - x;
-          const dy = smooth.y - y;
-          const dist = Math.hypot(dx, dy);
-          const t = Math.max(0, 1 - dist / influence);
-          const eased = t * t * (3 - 2 * t);
-
-          // la ola vive solo dentro del zoom y se apaga en el borde
-          const crest = Math.sin(dist * 0.09 - now * 0.004);
-          const wave = eased * crest;
-
-          let throb = 0;
-          if (beat > 0) {
-            const pDist = Math.hypot(pulse.x - x, pulse.y - y);
-            const pt = Math.max(0, 1 - pDist / influence);
-            throb = pt * pt * (3 - 2 * pt) * beat;
-          }
-
-          const strength = Math.min(1, eased + throb * 0.35);
-          const radius = Math.max(
-            1.2,
-            baseRadius +
-              (maxRadius - baseRadius) * eased +
-              (maxRadius - baseRadius) * 0.28 * wave +
-              (maxRadius - baseRadius) * 0.7 * throb,
-          );
-
-          let px = x;
-          let py = y;
-          if (dist > 0.001 && eased > 0) {
-            px += (dx / dist) * wave * maxShift;
-            py += (dy / dist) * wave * maxShift;
-          }
-
-          ctx.beginPath();
-          ctx.fillStyle = strength > 0.08 ? activeColor : baseColor;
-          ctx.globalAlpha = 0.5 + strength * 0.5;
-          ctx.arc(px, py, radius, 0, Math.PI * 2);
-          ctx.fill();
+          dots.push({
+            cx: originX + col * step,
+            cy: originY + row * step,
+            x: 0,
+            y: 0,
+            vx: 0,
+            vy: 0,
+            busy: false,
+          });
         }
       }
+    };
 
-      ctx.globalAlpha = 1;
+    const pushDot = (dot: Dot, impulseX: number, impulseY: number) => {
+      dot.busy = true;
+      dot.vx += impulseX;
+      dot.vy += impulseY;
+    };
+
+    const onMove = (event: MouseEvent) => {
+      const rect = canvas.getBoundingClientRect();
+      const now = performance.now();
+      const dt = pointer.lastTime ? now - pointer.lastTime : 16;
+      let vx = ((event.clientX - pointer.lastX) / dt) * 1000;
+      let vy = ((event.clientY - pointer.lastY) / dt) * 1000;
+      let speed = Math.hypot(vx, vy);
+      if (speed > 5000) {
+        const scale = 5000 / speed;
+        vx *= scale;
+        vy *= scale;
+        speed = 5000;
+      }
+      pointer.lastTime = now;
+      pointer.lastX = event.clientX;
+      pointer.lastY = event.clientY;
+      pointer.vx = vx;
+      pointer.vy = vy;
+      pointer.speed = speed;
+      pointer.x = event.clientX - rect.left;
+      pointer.y = event.clientY - rect.top;
+
+      if (speed <= speedTrigger) return;
+      for (const dot of dots) {
+        const dist = Math.hypot(dot.cx - pointer.x, dot.cy - pointer.y);
+        if (dist < proximity && !dot.busy) {
+          pushDot(
+            dot,
+            dot.cx - pointer.x + vx * 0.005,
+            dot.cy - pointer.y + vy * 0.005,
+          );
+        }
+      }
+    };
+
+    const onClick = (event: MouseEvent) => {
+      const rect = canvas.getBoundingClientRect();
+      const x = event.clientX - rect.left;
+      const y = event.clientY - rect.top;
+      for (const dot of dots) {
+        const dist = Math.hypot(dot.cx - x, dot.cy - y);
+        if (dist < shockRadius && !dot.busy) {
+          const falloff = Math.max(0, 1 - dist / shockRadius);
+          pushDot(
+            dot,
+            (dot.cx - x) * shockStrength * falloff,
+            (dot.cy - y) * shockStrength * falloff,
+          );
+        }
+      }
+    };
+
+    const draw = (now: number) => {
+      if (!running) return;
+      const dt = Math.min(0.032, (now - lastFrame) / 1000);
+      lastFrame = now;
+
+      const stiffness = 36 / (returnDuration * returnDuration);
+      const damping = 7.2 / returnDuration;
+
+      ctx.clearRect(0, 0, canvas.offsetWidth, canvas.offsetHeight);
+      const proximitySq = proximity * proximity;
+
+      for (const dot of dots) {
+        const ax = -stiffness * dot.x - damping * dot.vx;
+        const ay = -stiffness * dot.y - damping * dot.vy;
+        dot.vx += ax * dt;
+        dot.vy += ay * dt;
+        dot.x += dot.vx * dt;
+        dot.y += dot.vy * dt;
+
+        if (dot.busy && Math.hypot(dot.x, dot.y) < 0.35 && Math.hypot(dot.vx, dot.vy) < 12) {
+          dot.x = 0;
+          dot.y = 0;
+          dot.vx = 0;
+          dot.vy = 0;
+          dot.busy = false;
+        }
+
+        const dx = dot.cx - pointer.x;
+        const dy = dot.cy - pointer.y;
+        const distSq = dx * dx + dy * dy;
+        let r = base.r;
+        let g = base.g;
+        let b = base.b;
+        let a = base.a;
+        if (distSq <= proximitySq) {
+          const t = 1 - Math.sqrt(distSq) / proximity;
+          r = Math.round(base.r + (active.r - base.r) * t);
+          g = Math.round(base.g + (active.g - base.g) * t);
+          b = Math.round(base.b + (active.b - base.b) * t);
+          a = base.a + (active.a - base.a) * t;
+        }
+
+        ctx.beginPath();
+        ctx.fillStyle = `rgba(${r}, ${g}, ${b}, ${a})`;
+        ctx.arc(dot.cx + dot.x, dot.cy + dot.y, dotSize / 2, 0, Math.PI * 2);
+        ctx.fill();
+      }
+
       raf = requestAnimationFrame(draw);
     };
 
-    const motionQuery = window.matchMedia("(prefers-reduced-motion: reduce)");
-    if (motionQuery.matches) {
-      resize();
-      running = false;
-      const width = canvas.offsetWidth;
-      const height = canvas.offsetHeight;
-      ctx.clearRect(0, 0, width, height);
-      const cols = Math.ceil(width / gap) + 1;
-      const rows = Math.ceil(height / gap) + 1;
-      const offsetX = (width - (cols - 1) * gap) / 2;
-      const offsetY = (height - (rows - 1) * gap) / 2;
-      ctx.fillStyle = baseColor;
-      ctx.globalAlpha = 0.55;
-      for (let row = 0; row < rows; row++) {
-        for (let col = 0; col < cols; col++) {
-          ctx.beginPath();
-          ctx.arc(offsetX + col * gap, offsetY + row * gap, baseRadius, 0, Math.PI * 2);
-          ctx.fill();
-        }
-      }
-      ctx.globalAlpha = 1;
-      return () => cancelAnimationFrame(raf);
-    }
-
-    resize();
+    build();
+    const observer = new ResizeObserver(build);
+    observer.observe(wrap);
     raf = requestAnimationFrame(draw);
-    window.addEventListener("resize", resize);
-    window.addEventListener("pointermove", onMove);
-    window.addEventListener("pointerdown", onDown);
-    canvas.addEventListener("pointerleave", onLeave);
+    window.addEventListener("mousemove", onMove, { passive: true });
+    window.addEventListener("click", onClick);
 
     return () => {
       running = false;
       cancelAnimationFrame(raf);
-      window.removeEventListener("resize", resize);
-      window.removeEventListener("pointermove", onMove);
-      window.removeEventListener("pointerdown", onDown);
-      canvas.removeEventListener("pointerleave", onLeave);
+      observer.disconnect();
+      window.removeEventListener("mousemove", onMove);
+      window.removeEventListener("click", onClick);
     };
-  }, [gap, baseRadius, maxRadius, influence, baseColor, activeColor]);
+  }, [dotSize, gap, baseColor, activeColor, proximity, speedTrigger, shockRadius, shockStrength, returnDuration]);
 
   return (
-    <canvas
-      ref={canvasRef}
-      className="absolute inset-0 h-full w-full"
-      aria-hidden
-    />
+    <div ref={wrapRef} className="absolute inset-0 h-full w-full">
+      <canvas ref={canvasRef} className="pointer-events-none absolute inset-0 h-full w-full" aria-hidden />
+    </div>
   );
 }

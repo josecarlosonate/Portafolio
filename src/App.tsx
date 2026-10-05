@@ -23,13 +23,19 @@ function App() {
     <>
       <Navbar language={language} setLanguage={setLanguage} theme={theme} setTheme={setTheme} />
       <main
-        className={`relative min-h-screen overflow-hidden p-10 ${
-          isDark ? "bg-slate-950 text-white" : "bg-[#f4f1ea] text-slate-950"
+        className={`relative min-h-screen overflow-hidden ${
+          isDark ? "bg-[#07111f] text-white" : "bg-[#f4f1ea] text-slate-950"
         }`}
       >
         <MagneticDotGrid
-          baseColor={isDark ? "#1e3a34" : "#c5e6da"}
-          activeColor={isDark ? "#5eead4" : "#0f6b5c"}
+          dotSize={6}
+          gap={30}
+          baseColor={isDark ? "#22C55E33" : "#0f6b5c33"}
+          activeColor={isDark ? "#22C55E" : "#0f6b5c"}
+          proximity={140}
+          shockRadius={220}
+          shockStrength={4}
+          returnDuration={1.2}
         />
       </main>
     </>
