@@ -1,7 +1,7 @@
 import { Blocks, Database } from "lucide-react";
 import { FaGithub } from "react-icons/fa";
+import { VscAzureDevops } from "react-icons/vsc";
 import {
-    SiAzuredevops,
     SiBootstrap,
     SiDocker,
     SiGit,
@@ -66,7 +66,7 @@ const groups: { key: "backend" | "frontend" | "database" | "infrastructure"; ite
             { name: "Docker", icon: SiDocker, color: "#2496ED" },
             { name: "Git", icon: SiGit, color: "#F05032" },
             { name: "GitHub", icon: FaGithub, themeAware: true },
-            { name: "Azure DevOps", icon: SiAzuredevops, color: "#0078D7" },
+            { name: "Azure DevOps", icon: VscAzureDevops, color: "#0078D7" },
             { name: "Jenkins", icon: SiJenkins, color: "#D24939" },
         ],
     },
