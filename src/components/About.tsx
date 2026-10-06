@@ -99,8 +99,8 @@ export default function About({ language }: AboutProps) {
                                 {translations.services.title}
                             </h2>
                         </div>
-                        {translations.services.items.map((item) => (
-                            <div className="mt-5">
+                        {translations.services.items.map((item, _index) => (
+                            <div key={_index} className="mt-5">
                                 <div className="flex items-start gap-3">
                                     <CircleCheck className="mt-0.5 size-5 shrink-0 text-primary" />
                                     <p className="text-sm leading-6 text-muted">
