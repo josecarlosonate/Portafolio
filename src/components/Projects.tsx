@@ -1,4 +1,4 @@
-import { ArrowRight, ExternalLink, FolderKanban, Github } from "lucide-react";
+import { ArrowRight, BookOpen, Code2, ExternalLink, FolderKanban } from "lucide-react";
 import { ProjectsTranslations } from "../translations/projects"
 import type { Language } from "../types/language"
 
@@ -73,12 +73,12 @@ function Projects({ language }: ProjectsProps) {
                                         </span>
                                     </div>
 
-                                    <div className="mt-auto flex items-center gap-5 pt-6">
+                                    <div className="mt-auto flex flex-wrap items-center gap-x-5 gap-y-3 pt-6">
                                         <a
                                             href="#"
                                             className="flex items-center gap-2 text-sm font-semibold text-primary transition-colors hover:text-primary-hover"
                                         >
-                                            <Github className="size-4" />
+                                            <Code2 className="size-4" />
                                             Código
                                         </a>
                                         <a
@@ -87,6 +87,13 @@ function Projects({ language }: ProjectsProps) {
                                         >
                                             <ExternalLink className="size-4" />
                                             Demo
+                                        </a>
+                                        <a
+                                            href="#"
+                                            className="flex items-center gap-2 text-sm font-semibold text-primary transition-colors hover:text-primary-hover"
+                                        >
+                                            <BookOpen className="size-4" />
+                                            Docs
                                         </a>
                                     </div>
                                 </div>
