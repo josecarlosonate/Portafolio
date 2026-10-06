@@ -15,7 +15,7 @@ export default function About({ language }: AboutProps) {
             <div className="relative z-10 mx-auto w-full max-w-7xl px-6 py-16">
                 <div className="grid rounded-2xl border border-border bg-surface pb-4 shadow-surface md:grid-cols-3 
                     transition-all duration-300 ease-out hover:-translate-y-1.5 hover:scale-[1.03] 
-                    hover:border-card-border hover:ring-1">
+                    hover:border-card-border hover:ring-1 hover:ring-card-border">
 
                     <div className="p-6">
                         <div className="flex items-center gap-3">

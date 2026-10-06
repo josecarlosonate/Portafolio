@@ -23,7 +23,7 @@ function Contact({ language }: ContactProps) {
                         <p className="mt-6 max-w-xl text-lg text-muted">
                             {translations.description}
                         </p>
-                        <ul className="mt-8 grid max-w-2xl grid-cols-2 gap-4">
+                        <ul className="mx-auto mt-8 grid max-w-sm grid-cols-1 sm:mx-0 sm:max-w-2xl sm:grid-cols-2 gap-4">
                             <li>
                                 <a href="mailto:ingeniero.josec@gmail.com"
                                     className="group flex h-full items-center gap-4 rounded-lg border border-border
@@ -83,7 +83,7 @@ function Contact({ language }: ContactProps) {
                                     <FaWhatsapp size={22} className="shrink-0 text-primary" />
                                     <div className="flex flex-1 flex-col">
                                         <span className="font-medium">
-                                            @onate338
+                                            {translations.contact.whatsapp.title}
                                         </span>
                                         <span className="text-sm text-muted">
                                             {translations.contact.whatsapp.description}
@@ -112,7 +112,7 @@ function Contact({ language }: ContactProps) {
                         <form>
                             <div className="rounded-2xl border border-border bg-surface p-6 text-foreground shadow-surface
                                 transition-all duration-300 ease-out hover:-translate-y-1.5 hover:scale-[1.03]
-                                hover:border-card-border hover:ring-1">
+                                hover:border-card-border hover:ring-1 hover:ring-card-border">
                                 <label className="block text-sm font-medium tracking-wide text-muted uppercase">
                                     {translations.form.name.label}
                                     <input type="text" name="name" required placeholder={translations.form.name.placeholder}

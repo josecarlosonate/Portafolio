@@ -54,7 +54,7 @@ export const ContactTranslations: Record<Language, ContactTranslations> = {
                 description: "Explora mis repositorios",
             },
             whatsapp: {
-                title: "WhatsApp",
+                title: "@onate338",
                 description: "Escríbeme directamente",
             },
             availability: "Disponible para proyectos freelance",
@@ -78,7 +78,7 @@ export const ContactTranslations: Record<Language, ContactTranslations> = {
     EN: {
         title: "Have a project in mind?",
         highlight: "Let's talk.",
-        description: "I'm interested in building software, APIs, and integrations that solve real-world problems and deliver value.tions, and new opportunities.",
+        description: "I'm interested in building software, APIs, and integrations that solve real-world problems and deliver value.",
         contact: {
             email: "Email",
             linkedin: {
@@ -90,7 +90,7 @@ export const ContactTranslations: Record<Language, ContactTranslations> = {
                 description: "Explore my repositories",
             },
             whatsapp: {
-                title: "WhatsApp",
+                title: "@onate338",
                 description: "Message me directly",
             },
             availability: "Available for freelance projects",
