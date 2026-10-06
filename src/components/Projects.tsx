@@ -36,10 +36,9 @@ function Projects({ language }: ProjectsProps) {
                         {array.map((_, index) => (
                             <article
                                 key={index}
-                                className="flex min-w-0 flex-col overflow-hidden rounded-xl border border-slate-200
-                                    bg-background shadow-[0_10px_30px_rgb(15_23_42_/_0.10)]
+                                className="flex min-w-0 flex-col overflow-hidden rounded-xl border border-border
+                                    bg-background border-primary shadow-[0_12px_32px_rgb(59_130_246_/_0.18)]
                                     transition-transform duration-300 ease-out
-                                    dark:border-primary dark:shadow-[0_12px_32px_rgb(59_130_246_/_0.18)]
                                     hover:-translate-y-1.5"
                             >
                                 <div className="aspect-video w-full overflow-hidden border-b border-border">
