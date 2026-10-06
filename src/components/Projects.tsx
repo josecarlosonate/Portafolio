@@ -34,7 +34,10 @@ function Projects({ language }: ProjectsProps) {
                             <article
                                 key={index}
                                 className="flex min-w-0 min-h-125 flex-col overflow-hidden
-                                    rounded-xl border border-border bg-surface shadow-surface"
+                                    rounded-xl border border-border bg-surface shadow-surface
+                                    transition-all duration-300 ease-out
+                                    hover:-translate-y-1.5 hover:border-primary
+                                    hover:shadow-[0_12px_32px_rgb(59_130_246_/_0.18)]"
                             >
                                 <div className="p-3 pb-0">
                                     <div className="aspect-[4/3] overflow-hidden rounded-lg border border-border">
