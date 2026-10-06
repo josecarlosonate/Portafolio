@@ -1,4 +1,4 @@
-import { Blocks, Database } from "lucide-react";
+import { Database } from "lucide-react";
 import { FaGithub } from "react-icons/fa";
 import { VscAzureDevops } from "react-icons/vsc";
 import {
@@ -78,25 +78,21 @@ export default function Technologies({ language }: TechnologiesProps) {
     return (
         <section id="technologies" className="w-full">
             <div className="relative z-10 mx-auto w-full max-w-7xl px-6 py-16">
-                <div className="flex items-center gap-3">
-                    <Blocks className="size-5 text-primary" />
-                    <h2 className="text-xl font-semibold text-foreground md:text-2xl">{translations.title}</h2>
-                </div>
+                <p className="text-sm font-medium tracking-[0.18em] text-primary uppercase">
+                    {translations.title}
+                </p>
 
-                <div className="mt-8 flex flex-col gap-8">
+                <div className="mt-10 grid gap-10 sm:grid-cols-2 xl:grid-cols-4">
                     {groups.map((group) => (
-                        <div key={group.key} className="grid gap-4 sm:grid-cols-[13rem_1fr] sm:items-center">
-                            <h3 className="text-lg text-muted">
+                        <div key={group.key} className="border-l border-primary/40 pl-5">
+                            <h2 className="text-xl font-semibold text-foreground">
                                 {translations.groups[group.key]}
-                            </h3>
-                            <ul className="flex flex-wrap gap-3">
+                            </h2>
+                            <ul className="mt-4 space-y-3">
                                 {group.items.map((technology) => (
-                                    <li
-                                        key={technology.name}
-                                        className="flex items-center gap-2 rounded-lg border border-border bg-surface-soft px-3 py-2 shadow-md"
-                                    >
+                                    <li key={technology.name} className="flex items-center gap-2 text-muted">
                                         <technology.icon
-                                            className={`text-2xl ${technology.themeAware ? "text-icon" : ""}`}
+                                            className={`text-lg ${technology.themeAware ? "text-icon" : ""}`}
                                             style={technology.themeAware ? undefined : { color: technology.color }}
                                             aria-hidden
                                         />
