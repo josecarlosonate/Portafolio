@@ -7,6 +7,7 @@ import About from "./components/About";
 import DotGrid from "./components/DotGrid/DotGrid";
 import Technologies from "./components/Technologies";
 import Footer from "./components/Footer";
+import Contact from "./components/Contact";
 
 
 function getInitialTheme(): Theme {
@@ -35,6 +36,7 @@ function App() {
         <Hero language={language} />
         <About language={language} />
         <Technologies language={language} />
+        <Contact language={language} />
         <Footer language={language} />
 
         <div className="absolute inset-0 z-0">
