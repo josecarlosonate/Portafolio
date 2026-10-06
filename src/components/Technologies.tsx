@@ -78,33 +78,34 @@ export default function Technologies({ language }: TechnologiesProps) {
     return (
         <section id="technologies" className="w-full">
             <div className="relative z-10 mx-auto w-full max-w-7xl px-6 py-16">
-                <div className="rounded-2xl border border-border bg-surface px-6 py-8 shadow-surface">
-                    <div className="flex items-center gap-3">
-                        <Blocks className="size-5 text-primary" />
-                        <h2 className="text-lg font-semibold text-foreground">{translations.title}</h2>
-                    </div>
+                <div className="flex items-center gap-3">
+                    <Blocks className="size-5 text-primary" />
+                    <h2 className="text-lg font-semibold text-foreground">{translations.title}</h2>
+                </div>
 
-                    <div className="mt-8 flex flex-col gap-8">
-                        {groups.map((group) => (
-                            <div key={group.key} className="border-t border-border-subtle pt-6 first:border-0 first:pt-0">
-                                <h3 className="text-sm font-semibold text-foreground">
-                                    {translations.groups[group.key]}
-                                </h3>
-                                <ul className="mt-4 flex flex-wrap gap-x-8 gap-y-5">
-                                    {group.items.map((technology) => (
-                                        <li key={technology.name} className="flex w-24 flex-col items-center gap-2 text-center">
-                                            <technology.icon
-                                                className={`text-4xl ${technology.themeAware ? "text-icon" : ""}`}
-                                                style={technology.themeAware ? undefined : { color: technology.color }}
-                                                aria-hidden
-                                            />
-                                            <span className="text-sm text-muted">{technology.name}</span>
-                                        </li>
-                                    ))}
-                                </ul>
-                            </div>
-                        ))}
-                    </div>
+                <div className="mt-6 divide-y divide-border-subtle">
+                    {groups.map((group) => (
+                        <div
+                            key={group.key}
+                            className="grid gap-4 py-6 sm:grid-cols-[13rem_1fr] sm:items-center"
+                        >
+                            <h3 className="text-sm font-semibold text-foreground">
+                                {translations.groups[group.key]}
+                            </h3>
+                            <ul className="flex flex-wrap gap-x-6 gap-y-3">
+                                {group.items.map((technology) => (
+                                    <li key={technology.name} className="flex items-center gap-2">
+                                        <technology.icon
+                                            className={`text-2xl ${technology.themeAware ? "text-icon" : ""}`}
+                                            style={technology.themeAware ? undefined : { color: technology.color }}
+                                            aria-hidden
+                                        />
+                                        <span className="text-sm text-muted">{technology.name}</span>
+                                    </li>
+                                ))}
+                            </ul>
+                        </div>
+                    ))}
                 </div>
             </div>
         </section>
