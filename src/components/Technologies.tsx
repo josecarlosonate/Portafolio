@@ -76,23 +76,26 @@ export default function Technologies({ language }: TechnologiesProps) {
     const translations = TechnologiesTranslations[language];
 
     return (
-        <section id="technologies" className="w-full">
-            <div className="relative z-10 mx-auto w-full max-w-7xl px-6 py-16">
-                <p className="text-sm font-medium tracking-[0.18em] text-primary uppercase">
+        <section id="technologies" className="flex min-h-screen w-full items-center">
+            <div className="relative z-10 mx-auto flex w-full max-w-7xl flex-col justify-center px-6 py-24">
+                <h2 className="text-4xl font-bold text-primary md:text-5xl">
                     {translations.title}
-                </p>
+                </h2>
 
-                <div className="mt-10 grid gap-10 sm:grid-cols-2 xl:grid-cols-4">
+                <div className="mt-16 grid flex-1 gap-14 sm:grid-cols-2 xl:grid-cols-4">
                     {groups.map((group) => (
-                        <div key={group.key} className="border-l border-primary/40 pl-5">
-                            <h2 className="text-xl font-semibold text-foreground">
+                        <div key={group.key} className="border-l border-primary/40 pl-6">
+                            <h3 className="text-2xl font-semibold text-foreground">
                                 {translations.groups[group.key]}
-                            </h2>
-                            <ul className="mt-4 space-y-3">
+                            </h3>
+                            <ul className="mt-8 flex flex-col gap-4">
                                 {group.items.map((technology) => (
-                                    <li key={technology.name} className="flex items-center gap-2 text-muted">
+                                    <li
+                                        key={technology.name}
+                                        className="flex w-fit items-center gap-2 rounded-lg border border-border bg-surface-soft px-3 py-2 shadow-md"
+                                    >
                                         <technology.icon
-                                            className={`text-lg ${technology.themeAware ? "text-icon" : ""}`}
+                                            className={`text-2xl ${technology.themeAware ? "text-icon" : ""}`}
                                             style={technology.themeAware ? undefined : { color: technology.color }}
                                             aria-hidden
                                         />
