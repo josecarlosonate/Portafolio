@@ -37,54 +37,54 @@ const groups: {
     icon: IconType;
     items: Technology[];
 }[] = [
-    {
-        key: "backend",
-        icon: Code2,
-        items: [
-            { name: "PHP", icon: SiPhp, color: "#777BB4" },
-            { name: "Laravel", icon: SiLaravel, color: "#FF2D20" },
-            { name: "GraphQL", icon: SiGraphql, color: "#E10098" },
-        ],
-    },
-    {
-        key: "frontend",
-        icon: Blocks,
-        items: [
-            { name: "React", icon: SiReact, color: "#61DAFB" },
-            { name: "TypeScript", icon: SiTypescript, color: "#3178C6" },
-            { name: "JavaScript", icon: SiJavascript, color: "#F7DF1E" },
-            { name: "Tailwind CSS", icon: SiTailwindcss, color: "#06B6D4" },
-            { name: "Bootstrap", icon: SiBootstrap, color: "#7952B3" },
-        ],
-    },
-    {
-        key: "database",
-        icon: Database,
-        items: [
-            { name: "PostgreSQL", icon: SiPostgresql, color: "#4169E1" },
-            { name: "MySQL", icon: SiMysql, color: "#4479A1" },
-            { name: "SQL", icon: Database, color: "#2563EB" },
-            { name: "MongoDB", icon: SiMongodb, color: "#47A248" },
-        ],
-    },
-    {
-        key: "infrastructure",
-        icon: Wrench,
-        items: [
-            { name: "Docker", icon: SiDocker, color: "#2496ED" },
-            { name: "Git", icon: SiGit, color: "#F05032" },
-            { name: "GitHub", icon: FaGithub, themeAware: true },
-            { name: "Azure DevOps", icon: VscAzureDevops, color: "#0078D7" },
-            { name: "Jenkins", icon: SiJenkins, color: "#D24939" },
-        ],
-    },
-];
+        {
+            key: "backend",
+            icon: Code2,
+            items: [
+                { name: "PHP", icon: SiPhp, color: "#777BB4" },
+                { name: "Laravel", icon: SiLaravel, color: "#FF2D20" },
+                { name: "GraphQL", icon: SiGraphql, color: "#E10098" },
+            ],
+        },
+        {
+            key: "frontend",
+            icon: Blocks,
+            items: [
+                { name: "React", icon: SiReact, color: "#61DAFB" },
+                { name: "TypeScript", icon: SiTypescript, color: "#3178C6" },
+                { name: "JavaScript", icon: SiJavascript, color: "#F7DF1E" },
+                { name: "Tailwind CSS", icon: SiTailwindcss, color: "#06B6D4" },
+                { name: "Bootstrap", icon: SiBootstrap, color: "#7952B3" },
+            ],
+        },
+        {
+            key: "database",
+            icon: Database,
+            items: [
+                { name: "PostgreSQL", icon: SiPostgresql, color: "#4169E1" },
+                { name: "MySQL", icon: SiMysql, color: "#4479A1" },
+                { name: "SQL", icon: Database, color: "#2563EB" },
+                { name: "MongoDB", icon: SiMongodb, color: "#47A248" },
+            ],
+        },
+        {
+            key: "infrastructure",
+            icon: Wrench,
+            items: [
+                { name: "Docker", icon: SiDocker, color: "#2496ED" },
+                { name: "Git", icon: SiGit, color: "#F05032" },
+                { name: "GitHub", icon: FaGithub, themeAware: true },
+                { name: "Azure DevOps", icon: VscAzureDevops, color: "#0078D7" },
+                { name: "Jenkins", icon: SiJenkins, color: "#D24939" },
+            ],
+        },
+    ];
 
 export default function Technologies({ language }: TechnologiesProps) {
     const translations = TechnologiesTranslations[language];
 
     return (
-        <section id="technologies" className="scroll-mt-20 text-foreground">
+        <section id="technologies" className="scroll-mt-10 text-foreground">
             <div className="relative z-10 mx-auto w-full max-w-7xl px-6 py-16 md:py-20">
                 <div className="max-w-2xl">
                     <h2 className="text-3xl font-bold tracking-tight text-foreground md:text-4xl">
