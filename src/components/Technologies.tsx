@@ -85,7 +85,7 @@ export default function Technologies({ language }: TechnologiesProps) {
 
     return (
         <section id="technologies" className="scroll-mt-20 text-foreground">
-            <div className="relative z-10 mx-auto w-full max-w-7xl px-6 py-20 md:py-24">
+            <div className="relative z-10 mx-auto w-full max-w-7xl px-6 py-16 md:py-20">
                 <div className="max-w-2xl">
                     <h2 className="text-3xl font-bold tracking-tight text-foreground md:text-4xl">
                         {translations.title}
@@ -95,14 +95,14 @@ export default function Technologies({ language }: TechnologiesProps) {
                     </p>
                 </div>
 
-                <div className="mt-10 grid gap-x-16 gap-y-8 md:grid-cols-2 lg:gap-x-24">
+                <div className="mt-7 grid gap-x-16 gap-y-7 md:grid-cols-2 lg:gap-x-24">
                     {groups.map((group) => {
                         const GroupIcon = group.icon;
 
                         return (
                             <div
                                 key={group.key}
-                                className="border-t border-border-subtle pt-5"
+                                className="relative pt-5 before:absolute before:left-0 before:top-0 before:h-px before:w-24 before:bg-border-subtle"
                             >
                                 <div className="flex items-center gap-2.5">
                                     <span className="flex size-8 items-center justify-center rounded-lg bg-primary-soft text-primary">
