@@ -83,24 +83,24 @@ export default function Technologies({ language }: TechnologiesProps) {
                     <h2 className="text-lg font-semibold text-foreground">{translations.title}</h2>
                 </div>
 
-                <div className="mt-6 divide-y divide-border-subtle">
+                <div className="mt-8 flex flex-col gap-8">
                     {groups.map((group) => (
-                        <div
-                            key={group.key}
-                            className="grid gap-4 py-6 sm:grid-cols-[13rem_1fr] sm:items-center"
-                        >
+                        <div key={group.key} className="grid gap-4 sm:grid-cols-[13rem_1fr] sm:items-center">
                             <h3 className="text-sm font-semibold text-foreground">
                                 {translations.groups[group.key]}
                             </h3>
-                            <ul className="flex flex-wrap gap-x-6 gap-y-3">
+                            <ul className="flex flex-wrap gap-3">
                                 {group.items.map((technology) => (
-                                    <li key={technology.name} className="flex items-center gap-2">
+                                    <li
+                                        key={technology.name}
+                                        className="flex items-center gap-2 rounded-lg border border-border bg-surface-soft px-3 py-2 shadow-md"
+                                    >
                                         <technology.icon
                                             className={`text-2xl ${technology.themeAware ? "text-icon" : ""}`}
                                             style={technology.themeAware ? undefined : { color: technology.color }}
                                             aria-hidden
                                         />
-                                        <span className="text-sm text-muted">{technology.name}</span>
+                                        <span className="text-sm text-foreground">{technology.name}</span>
                                     </li>
                                 ))}
                             </ul>
