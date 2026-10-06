@@ -3,7 +3,7 @@ import type { Language } from "../types/language";
 import LanguageSelector from "./LanguageSelector";
 import { NavbarTranslations } from "../translations/navbar";
 import type { Theme } from "../types/theme";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 type NavbarProps = {
     language: Language;
@@ -20,6 +20,8 @@ const navItems = [
     { key: "contact", href: "#contact" },
 ] as const;
 
+const sectionIds = ["home", "about", "technologies"];
+
 function Navbar({ language, setLanguage, theme, setTheme }: NavbarProps) {
     const translations = NavbarTranslations[language];
     const toggleTheme = () => {
@@ -29,6 +31,45 @@ function Navbar({ language, setLanguage, theme, setTheme }: NavbarProps) {
     };
     const [isMenuOpen, setIsMenuOpen] = useState(false);
     const [activeHref, setActiveHref] = useState(() => window.location.hash || "#home");
+
+    useEffect(() => {
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach((entry) => {
+                if (entry.isIntersecting) {
+                    setActiveHref(`#${entry.target.id}`);
+                }
+            });
+        },
+            {
+                root: null,
+                rootMargin: "-30% 0px -69% 0px",
+            });
+
+        sectionIds.forEach((id) => {
+            const section = document.getElementById(id);
+            if (section) {
+                observer.observe(section);
+            }
+        });
+
+        return () => {
+            observer.disconnect();
+        };
+
+    }, []);
+
+    useEffect(() => {
+        const hash = window.location.hash;
+
+        if (!hash) return;
+        const section = document.getElementById(hash.slice(1));
+        if (section) {
+            section.scrollIntoView({
+                behavior: "smooth",
+            });
+        }
+
+    }, []);
 
     return (
         <header className="fixed inset-x-0 top-0 z-50 w-full border-b border-border-subtle bg-background">
