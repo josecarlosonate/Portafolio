@@ -95,14 +95,14 @@ export default function Technologies({ language }: TechnologiesProps) {
                     </p>
                 </div>
 
-                <div className="mt-7 grid gap-x-16 gap-y-7 md:grid-cols-2 lg:gap-x-24">
+                <div className="mt-7 grid gap-x-16 gap-y-5 md:grid-cols-2 md:gap-y-7 lg:gap-x-24">
                     {groups.map((group) => {
                         const GroupIcon = group.icon;
 
                         return (
                             <div
                                 key={group.key}
-                                className="relative pt-5 before:absolute before:left-0 before:top-0 before:h-px before:w-24 before:bg-border-subtle"
+                                className="relative pt-4 before:absolute before:left-0 before:top-0 before:h-px before:w-20 before:bg-border-subtle md:pt-5 md:before:w-24"
                             >
                                 <div className="flex items-center gap-2.5">
                                     <span className="flex size-8 items-center justify-center rounded-lg bg-primary-soft text-primary">
@@ -113,7 +113,7 @@ export default function Technologies({ language }: TechnologiesProps) {
                                     </h3>
                                 </div>
 
-                                <ul className="mt-4 flex flex-wrap gap-2.5">
+                                <ul className="mt-3 flex flex-wrap gap-2 md:mt-4 md:gap-2.5">
                                     {group.items.map((technology) => (
                                         <li key={technology.name}>
                                             <span className="inline-flex items-center gap-2 rounded-lg border border-border bg-surface-soft px-3 py-2 text-sm font-medium text-foreground shadow-surface transition-transform duration-200 hover:-translate-y-0.5">
