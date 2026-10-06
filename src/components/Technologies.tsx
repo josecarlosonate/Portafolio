@@ -1,4 +1,4 @@
-import { Database } from "lucide-react";
+import { Blocks, Code2, Database, Wrench } from "lucide-react";
 import { FaGithub } from "react-icons/fa";
 import { VscAzureDevops } from "react-icons/vsc";
 import {
@@ -32,9 +32,14 @@ type Technology = {
     themeAware?: boolean;
 };
 
-const groups: { key: keyof typeof TechnologiesTranslations.ES.groups; items: Technology[] }[] = [
+const groups: {
+    key: keyof typeof TechnologiesTranslations.ES.groups;
+    icon: IconType;
+    items: Technology[];
+}[] = [
     {
         key: "backend",
+        icon: Code2,
         items: [
             { name: "PHP", icon: SiPhp, color: "#777BB4" },
             { name: "Laravel", icon: SiLaravel, color: "#FF2D20" },
@@ -43,6 +48,7 @@ const groups: { key: keyof typeof TechnologiesTranslations.ES.groups; items: Tec
     },
     {
         key: "frontend",
+        icon: Blocks,
         items: [
             { name: "React", icon: SiReact, color: "#61DAFB" },
             { name: "TypeScript", icon: SiTypescript, color: "#3178C6" },
@@ -53,6 +59,7 @@ const groups: { key: keyof typeof TechnologiesTranslations.ES.groups; items: Tec
     },
     {
         key: "database",
+        icon: Database,
         items: [
             { name: "PostgreSQL", icon: SiPostgresql, color: "#4169E1" },
             { name: "MySQL", icon: SiMysql, color: "#4479A1" },
@@ -62,6 +69,7 @@ const groups: { key: keyof typeof TechnologiesTranslations.ES.groups; items: Tec
     },
     {
         key: "infrastructure",
+        icon: Wrench,
         items: [
             { name: "Docker", icon: SiDocker, color: "#2496ED" },
             { name: "Git", icon: SiGit, color: "#F05032" },
@@ -77,36 +85,51 @@ export default function Technologies({ language }: TechnologiesProps) {
 
     return (
         <section id="technologies" className="scroll-mt-20 text-foreground">
-            <div className="relative z-10 mx-auto w-full max-w-7xl px-6 py-24">
-                <h2 className="text-3xl font-bold tracking-tight text-foreground md:text-4xl">
-                    {translations.title}
-                </h2>
-                <p className="mt-3 max-w-2xl text-lg text-muted">
-                    {translations.subtitle}
-                </p>
+            <div className="relative z-10 mx-auto w-full max-w-7xl px-6 py-20 md:py-24">
+                <div className="max-w-2xl">
+                    <h2 className="text-3xl font-bold tracking-tight text-foreground md:text-4xl">
+                        {translations.title}
+                    </h2>
+                    <p className="mt-3 text-lg leading-8 text-muted">
+                        {translations.subtitle}
+                    </p>
+                </div>
 
-                <div className="mt-12 grid gap-x-12 gap-y-10 md:grid-cols-2">
-                    {groups.map((group) => (
-                        <div key={group.key}>
-                            <h3 className="text-sm font-semibold tracking-wide text-primary">
-                                {translations.groups[group.key]}
-                            </h3>
-                            <ul className="mt-4 flex flex-wrap gap-3">
-                                {group.items.map((technology) => (
-                                    <li key={technology.name}>
-                                        <span className="inline-flex items-center gap-2 rounded-lg border border-border bg-surface-soft px-3 py-2 text-foreground shadow-md">
-                                            <technology.icon
-                                                className={`text-2xl ${technology.themeAware ? "text-icon" : ""}`}
-                                                style={technology.themeAware ? undefined : { color: technology.color }}
-                                                aria-hidden
-                                            />
-                                            {technology.name}
-                                        </span>
-                                    </li>
-                                ))}
-                            </ul>
-                        </div>
-                    ))}
+                <div className="mt-10 grid gap-x-16 gap-y-8 md:grid-cols-2 lg:gap-x-24">
+                    {groups.map((group) => {
+                        const GroupIcon = group.icon;
+
+                        return (
+                            <div
+                                key={group.key}
+                                className="border-t border-border-subtle pt-5"
+                            >
+                                <div className="flex items-center gap-2.5">
+                                    <span className="flex size-8 items-center justify-center rounded-lg bg-primary-soft text-primary">
+                                        <GroupIcon className="size-4" aria-hidden />
+                                    </span>
+                                    <h3 className="text-sm font-bold tracking-wide text-primary">
+                                        {translations.groups[group.key]}
+                                    </h3>
+                                </div>
+
+                                <ul className="mt-4 flex flex-wrap gap-2.5">
+                                    {group.items.map((technology) => (
+                                        <li key={technology.name}>
+                                            <span className="inline-flex items-center gap-2 rounded-lg border border-border bg-surface-soft px-3 py-2 text-sm font-medium text-foreground shadow-surface transition-transform duration-200 hover:-translate-y-0.5">
+                                                <technology.icon
+                                                    className={`text-xl ${technology.themeAware ? "text-icon" : ""}`}
+                                                    style={technology.themeAware ? undefined : { color: technology.color }}
+                                                    aria-hidden
+                                                />
+                                                {technology.name}
+                                            </span>
+                                        </li>
+                                    ))}
+                                </ul>
+                            </div>
+                        );
+                    })}
                 </div>
             </div>
         </section>
