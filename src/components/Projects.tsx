@@ -32,11 +32,11 @@ function Projects({ language }: ProjectsProps) {
                         </button>
                     </div>
 
-                    <div className="mt-8 grid grid-cols-1 gap-5 md:grid-cols-2 xl:grid-cols-3">
+                    <div className="mt-8 grid grid-cols-1 justify-items-center gap-5 md:grid-cols-2 xl:grid-cols-3">
                         {array.map((_, index) => (
                             <article
                                 key={index}
-                                className="flex min-w-0 flex-col overflow-hidden rounded-xl border border-border
+                                className="flex w-full max-w-115 min-w-0 flex-col overflow-hidden rounded-xl border border-border
                                     bg-background shadow-surface transition-transform duration-300 ease-out
                                     dark:border-primary dark:shadow-none
                                     hover:-translate-y-1.5"
