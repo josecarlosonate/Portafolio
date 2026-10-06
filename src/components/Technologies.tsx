@@ -1,15 +1,15 @@
-import { Blocks } from "lucide-react";
+import { Blocks, Database } from "lucide-react";
 import { FaGithub } from "react-icons/fa";
 import {
+    SiAzuredevops,
     SiBootstrap,
-    SiCss,
     SiDocker,
     SiGit,
     SiGraphql,
-    SiHtml5,
     SiJavascript,
     SiJenkins,
     SiLaravel,
+    SiMongodb,
     SiMysql,
     SiPhp,
     SiPostgresql,
@@ -47,8 +47,6 @@ const groups: { key: "backend" | "frontend" | "database" | "infrastructure"; ite
             { name: "React", icon: SiReact, color: "#61DAFB" },
             { name: "TypeScript", icon: SiTypescript, color: "#3178C6" },
             { name: "JavaScript", icon: SiJavascript, color: "#F7DF1E" },
-            { name: "HTML5", icon: SiHtml5, color: "#E34F26" },
-            { name: "CSS3", icon: SiCss, color: "#1572B6" },
             { name: "Tailwind CSS", icon: SiTailwindcss, color: "#06B6D4" },
             { name: "Bootstrap", icon: SiBootstrap, color: "#7952B3" },
         ],
@@ -58,6 +56,8 @@ const groups: { key: "backend" | "frontend" | "database" | "infrastructure"; ite
         items: [
             { name: "PostgreSQL", icon: SiPostgresql, color: "#4169E1" },
             { name: "MySQL", icon: SiMysql, color: "#4479A1" },
+            { name: "SQL", icon: Database, color: "#2563EB" },
+            { name: "MongoDB", icon: SiMongodb, color: "#47A248" },
         ],
     },
     {
@@ -66,6 +66,7 @@ const groups: { key: "backend" | "frontend" | "database" | "infrastructure"; ite
             { name: "Docker", icon: SiDocker, color: "#2496ED" },
             { name: "Git", icon: SiGit, color: "#F05032" },
             { name: "GitHub", icon: FaGithub, themeAware: true },
+            { name: "Azure DevOps", icon: SiAzuredevops, color: "#0078D7" },
             { name: "Jenkins", icon: SiJenkins, color: "#D24939" },
         ],
     },
@@ -83,13 +84,13 @@ export default function Technologies({ language }: TechnologiesProps) {
                         <h2 className="text-lg font-semibold text-foreground">{translations.title}</h2>
                     </div>
 
-                    <div className="mt-8 grid gap-8 md:grid-cols-2">
+                    <div className="mt-8 flex flex-col gap-8">
                         {groups.map((group) => (
-                            <div key={group.key}>
+                            <div key={group.key} className="border-t border-border-subtle pt-6 first:border-0 first:pt-0">
                                 <h3 className="text-sm font-semibold text-foreground">
                                     {translations.groups[group.key]}
                                 </h3>
-                                <ul className="mt-4 flex flex-wrap gap-x-6 gap-y-5">
+                                <ul className="mt-4 flex flex-wrap gap-x-8 gap-y-5">
                                     {group.items.map((technology) => (
                                         <li key={technology.name} className="flex w-24 flex-col items-center gap-2 text-center">
                                             <technology.icon
