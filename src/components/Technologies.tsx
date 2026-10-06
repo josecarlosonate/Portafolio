@@ -1,3 +1,4 @@
+import { useEffect, useRef, useState } from "react";
 import { Database } from "lucide-react";
 import { FaGithub } from "react-icons/fa";
 import { VscAzureDevops } from "react-icons/vsc";
@@ -74,17 +75,51 @@ const groups: { key: "backend" | "frontend" | "database" | "infrastructure"; ite
 
 export default function Technologies({ language }: TechnologiesProps) {
     const translations = TechnologiesTranslations[language];
+    const sectionRef = useRef<HTMLElement>(null);
+    const [visible, setVisible] = useState(false);
+
+    useEffect(() => {
+        const node = sectionRef.current;
+        if (!node) return;
+
+        if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
+            setVisible(true);
+            return;
+        }
+
+        const observer = new IntersectionObserver(
+            ([entry]) => {
+                if (!entry.isIntersecting) return;
+                setVisible(true);
+                observer.disconnect();
+            },
+            { threshold: 0.25 }
+        );
+
+        observer.observe(node);
+        return () => observer.disconnect();
+    }, []);
 
     return (
-        <section id="technologies" className="flex min-h-screen w-full items-center text-foreground">
+        <section id="technologies" ref={sectionRef} className="flex min-h-screen w-full items-center text-foreground">
             <div className="relative z-10 mx-auto flex w-full max-w-7xl flex-col justify-center px-6 py-24">
-                <h2 className="text-4xl font-bold text-primary md:text-5xl">
+                <h2
+                    className={`text-4xl font-bold text-primary transition-all duration-700 md:text-5xl ${
+                        visible ? "translate-y-0 opacity-100" : "translate-y-6 opacity-0"
+                    }`}
+                >
                     {translations.title}
                 </h2>
 
                 <div className="mt-16 grid flex-1 gap-14 sm:grid-cols-2 xl:grid-cols-4">
-                    {groups.map((group) => (
-                        <div key={group.key} className="border-l border-primary/40 pl-6">
+                    {groups.map((group, index) => (
+                        <div
+                            key={group.key}
+                            className={`border-l border-primary/40 pl-6 transition-all duration-700 ${
+                                visible ? "translate-y-0 opacity-100" : "translate-y-6 opacity-0"
+                            }`}
+                            style={{ transitionDelay: visible ? `${index * 120}ms` : "0ms" }}
+                        >
                             <h3 className="text-2xl font-semibold text-foreground">
                                 {translations.groups[group.key]}
                             </h3>
