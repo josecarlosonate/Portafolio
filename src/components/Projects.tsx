@@ -1,12 +1,14 @@
 import { ArrowRight, BookOpen, Code2, ExternalLink, FolderKanban } from "lucide-react";
 import { ProjectsTranslations } from "../translations/projects"
 import type { Language } from "../types/language"
+import type { Theme } from "../types/theme";
 
 type ProjectsProps = {
     language: Language
+    theme: Theme
 }
 
-function Projects({ language }: ProjectsProps) {
+function Projects({ language, theme }: ProjectsProps) {
     const translations = ProjectsTranslations[language];
     const array = Array.from({ length: 3 });
 
@@ -36,14 +38,14 @@ function Projects({ language }: ProjectsProps) {
                         {array.map((_, index) => (
                             <article
                                 key={index}
-                                className="flex min-w-0 flex-col overflow-hidden rounded-xl border border-border
-                                    bg-background border-primary shadow-[0_12px_32px_rgb(59_130_246_/_0.18)]
+                                className="flex min-w-0 flex-col overflow-hidden rounded-xl border
+                                    bg-background border-primary shadow-[0_12px_32px_rgb(59_130_246/0.18)]
                                     transition-transform duration-300 ease-out
                                     hover:-translate-y-1.5"
                             >
                                 <div className="aspect-video w-full overflow-hidden border-b border-border">
                                     <img
-                                        src="/images/projects/stockcore.png"
+                                        src={theme === 'light' ? "/images/projects/stockcore_dark.png" : "/images/projects/stockcore.png"}
                                         alt="StockCore API documentation"
                                         className="h-full w-full object-cover object-top"
                                     />

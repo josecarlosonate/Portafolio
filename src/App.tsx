@@ -5,7 +5,6 @@ import type { Theme } from "./types/theme";
 import Hero from "./components/Hero";
 import About from "./components/About";
 import DotGrid from "./components/DotGrid/DotGrid";
-import Projects from "./components/Projects";
 
 
 function getInitialTheme(): Theme {
@@ -33,14 +32,18 @@ function App() {
       <div className="relative z-10 bg-background">
         <Hero language={language} />
         <About language={language} />
-        <Projects language={language} />
 
         <div className="absolute inset-0 z-0">
-          <DotGrid dotSize={4} gap={24}
+          <DotGrid
+            dotSize={4}
+            gap={24}
             baseColor={theme === "dark" ? "#1E293B" : "#E2E8F0"}
             activeColor={theme === "dark" ? "#60A5FA" : "#2563EB"}
-            proximity={120} shockRadius={260}
-            shockStrength={5} resistance={750} returnDuration={1.5}
+            proximity={120}
+            shockRadius={260}
+            shockStrength={5}
+            resistance={750}
+            returnDuration={1.5}
           />
         </div>
 
