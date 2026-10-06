@@ -32,14 +32,14 @@ function Projects({ language }: ProjectsProps) {
                         </button>
                     </div>
 
-                    <div className="mt-8 grid grid-cols-1 justify-items-center gap-5 md:grid-cols-2 xl:grid-cols-3">
+                    <div className="mt-8 grid grid-cols-1 gap-5 md:grid-cols-2 xl:grid-cols-3">
                         {array.map((_, index) => (
                             <article
                                 key={index}
-                                className="flex w-full max-w-115 min-w-0 flex-col overflow-hidden rounded-xl border border-border
-                                    bg-background shadow-surface transition-transform duration-300 ease-out
-                                    dark:border-primary dark:shadow-[0_12px_32px_rgb(59_130_246_/_0.18)]
-                                    hover:-translate-y-1.5"
+                                className="flex min-w-0 flex-col overflow-hidden rounded-xl border border-border
+                                    bg-background shadow-surface transition-all duration-300 ease-out
+                                    hover:-translate-y-1.5 hover:border-primary
+                                    hover:shadow-[0_12px_32px_rgb(59_130_246_/_0.18)]"
                             >
                                 <div className="aspect-video w-full overflow-hidden border-b border-border">
                                     <img
