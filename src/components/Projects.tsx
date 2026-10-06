@@ -41,14 +41,12 @@ function Projects({ language }: ProjectsProps) {
                                     hover:-translate-y-1.5 hover:border-primary
                                     hover:shadow-[0_12px_32px_rgb(59_130_246_/_0.18)]"
                             >
-                                <div className="p-3 pb-0">
-                                    <div className="aspect-video overflow-hidden rounded-lg border border-border">
-                                        <img
-                                            src="/images/projects/stockcore.png"
-                                            alt="StockCore API documentation"
-                                            className="h-full w-full object-cover object-top"
-                                        />
-                                    </div>
+                                <div className="aspect-video w-full overflow-hidden border-b border-border">
+                                    <img
+                                        src="/images/projects/stockcore.png"
+                                        alt="StockCore API documentation"
+                                        className="h-full w-full object-cover object-top"
+                                    />
                                 </div>
 
                                 <div className="flex flex-1 flex-col p-5">
