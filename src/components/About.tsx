@@ -11,7 +11,7 @@ export default function About({ language }: AboutProps) {
     const translations = AboutTranslations[language];
 
     return (
-        <section id="about" className="">
+        <section id="about" className="scroll-mt-15">
             <div className="relative z-10 mx-auto w-full max-w-7xl px-6 py-16">
                 <div className="grid rounded-2xl border border-border bg-surface pb-4 shadow-surface md:grid-cols-3 
                     transition-all duration-300 ease-out hover:-translate-y-1.5 hover:scale-[1.03] hover:border-card-border hover:ring-1">
