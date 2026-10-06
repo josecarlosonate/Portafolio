@@ -1,4 +1,3 @@
-import { useEffect, useRef, useState } from "react";
 import { Database } from "lucide-react";
 import { FaGithub } from "react-icons/fa";
 import { VscAzureDevops } from "react-icons/vsc";
@@ -33,7 +32,7 @@ type Technology = {
     themeAware?: boolean;
 };
 
-const groups: { key: "backend" | "frontend" | "database" | "infrastructure"; items: Technology[] }[] = [
+const groups: { key: keyof typeof TechnologiesTranslations.ES.groups; items: Technology[] }[] = [
     {
         key: "backend",
         items: [
@@ -73,79 +72,36 @@ const groups: { key: "backend" | "frontend" | "database" | "infrastructure"; ite
     },
 ];
 
-function isInView(element: HTMLElement) {
-    const rect = element.getBoundingClientRect();
-    return rect.top < window.innerHeight * 0.75 && rect.bottom > window.innerHeight * 0.25;
-}
-
 export default function Technologies({ language }: TechnologiesProps) {
     const translations = TechnologiesTranslations[language];
-    const sectionRef = useRef<HTMLElement>(null);
-    const [visible, setVisible] = useState(false);
-
-    useEffect(() => {
-        const node = sectionRef.current;
-        if (!node) return;
-
-        if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
-            setVisible(true);
-            return;
-        }
-
-        const update = () => setVisible(isInView(node));
-        update();
-
-        const observer = new IntersectionObserver(update, {
-            threshold: [0, 0.15, 0.35],
-        });
-        observer.observe(node);
-        window.addEventListener("hashchange", update);
-
-        return () => {
-            observer.disconnect();
-            window.removeEventListener("hashchange", update);
-        };
-    }, []);
 
     return (
-        <section
-            id="technologies"
-            ref={sectionRef}
-            className="flex min-h-screen w-full scroll-mt-20 items-center text-foreground"
-        >
-            <div className="relative z-10 mx-auto flex w-full max-w-7xl flex-col justify-center px-6 py-24">
-                <h2
-                    className={`text-4xl font-bold text-primary transition-all duration-700 md:text-5xl ${
-                        visible ? "translate-y-0 opacity-100" : "translate-y-6 opacity-0"
-                    }`}
-                >
+        <section id="technologies" className="scroll-mt-20 text-foreground">
+            <div className="relative z-10 mx-auto w-full max-w-7xl px-6 py-24">
+                <h2 className="text-3xl font-bold tracking-tight text-foreground md:text-4xl">
                     {translations.title}
                 </h2>
+                <p className="mt-3 max-w-2xl text-lg text-muted">
+                    {translations.subtitle}
+                </p>
 
-                <div className="mt-16 grid flex-1 gap-14 sm:grid-cols-2 xl:grid-cols-4">
-                    {groups.map((group, index) => (
-                        <div
-                            key={group.key}
-                            className={`border-l border-primary/40 pl-6 transition-all duration-700 ${
-                                visible ? "translate-y-0 opacity-100" : "translate-y-6 opacity-0"
-                            }`}
-                            style={{ transitionDelay: visible ? `${index * 120}ms` : "0ms" }}
-                        >
-                            <h3 className="text-2xl font-semibold text-foreground">
+                <div className="mt-12 grid gap-x-12 gap-y-10 md:grid-cols-2">
+                    {groups.map((group) => (
+                        <div key={group.key}>
+                            <h3 className="text-sm font-semibold tracking-wide text-primary">
                                 {translations.groups[group.key]}
                             </h3>
-                            <ul className="mt-8 flex flex-col gap-4">
+                            <ul className="mt-4 flex flex-wrap gap-3">
                                 {group.items.map((technology) => (
-                                    <li
-                                        key={technology.name}
-                                        className="flex w-fit items-center gap-2 rounded-lg border border-border bg-surface-soft px-3 py-2 text-foreground shadow-md"
-                                    >
-                                        <technology.icon
-                                            className={`text-2xl ${technology.themeAware ? "text-icon" : ""}`}
-                                            style={technology.themeAware ? undefined : { color: technology.color }}
-                                            aria-hidden
-                                        />
-                                        <span className="text-foreground">{technology.name}</span>
+                                    <li key={technology.name}>
+                                        <span className="inline-flex items-center gap-2 rounded-lg border border-border bg-surface-soft px-3 py-2 text-foreground shadow-md">
+                                            <technology.icon
+                                                className={`text-2xl ${technology.themeAware ? "text-icon" : ""}`}
+                                                style={technology.themeAware ? undefined : { color: technology.color }}
+                                                aria-hidden
+                                            />
+                                            {technology.name}
+                                        </span>
                                     </li>
                                 ))}
                             </ul>
