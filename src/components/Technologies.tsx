@@ -80,13 +80,13 @@ export default function Technologies({ language }: TechnologiesProps) {
             <div className="relative z-10 mx-auto w-full max-w-7xl px-6 py-16">
                 <div className="flex items-center gap-3">
                     <Blocks className="size-5 text-primary" />
-                    <h2 className="text-lg font-semibold text-foreground">{translations.title}</h2>
+                    <h2 className="text-xl font-semibold text-foreground md:text-2xl">{translations.title}</h2>
                 </div>
 
                 <div className="mt-8 flex flex-col gap-8">
                     {groups.map((group) => (
                         <div key={group.key} className="grid gap-4 sm:grid-cols-[13rem_1fr] sm:items-center">
-                            <h3 className="text-sm font-semibold text-foreground">
+                            <h3 className="text-lg text-muted">
                                 {translations.groups[group.key]}
                             </h3>
                             <ul className="flex flex-wrap gap-3">
@@ -100,7 +100,7 @@ export default function Technologies({ language }: TechnologiesProps) {
                                             style={technology.themeAware ? undefined : { color: technology.color }}
                                             aria-hidden
                                         />
-                                        <span className="text-sm text-foreground">{technology.name}</span>
+                                        <span>{technology.name}</span>
                                     </li>
                                 ))}
                             </ul>
