@@ -38,7 +38,7 @@ function Projects({ language }: ProjectsProps) {
                                 key={index}
                                 className="flex min-w-0 flex-col overflow-hidden rounded-xl border border-border
                                     bg-background shadow-surface transition-transform duration-300 ease-out
-                                    dark:border-primary dark:shadow-[0_12px_32px_rgb(59_130_246_/_0.18)]
+                                    dark:border-primary dark:bg-surface dark:shadow-[0_12px_32px_rgb(59_130_246_/_0.18)]
                                     hover:-translate-y-1.5"
                             >
                                 <div className="aspect-video w-full overflow-hidden border-b border-border">
