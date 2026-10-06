@@ -29,14 +29,15 @@ function Projects({ language }: ProjectsProps) {
                         </button>
                     </div>
 
-                    <div className="mt-8 flex flex-wrap gap-5">
-                        {array.map(() => (
+                    <div className="mt-8 grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-5">
+                        {array.map((_, index) => (
                             <article
-                                className="flex w-72.5 min-h-125 flex-col overflow-hidden
-                                    rounded-2xl border border-border bg-surface shadow-surface"
+                                key={index}
+                                className="flex min-w-0 min-h-125 flex-col overflow-hidden
+                                    rounded-xl border border-border bg-surface shadow-surface"
                             >
-                                <div className="p-3">
-                                    <div className="h-50 overflow-hidden rounded-xl border border-border">
+                                <div className="p-3 pb-0">
+                                    <div className="aspect-[4/3] overflow-hidden rounded-lg border border-border">
                                         <img
                                             src="/images/projects/stockcore.png"
                                             alt="StockCore API documentation"
