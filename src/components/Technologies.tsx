@@ -76,7 +76,7 @@ export default function Technologies({ language }: TechnologiesProps) {
     const translations = TechnologiesTranslations[language];
 
     return (
-        <section id="technologies" className="flex min-h-screen w-full items-center">
+        <section id="technologies" className="flex min-h-screen w-full items-center text-foreground">
             <div className="relative z-10 mx-auto flex w-full max-w-7xl flex-col justify-center px-6 py-24">
                 <h2 className="text-4xl font-bold text-primary md:text-5xl">
                     {translations.title}
@@ -92,14 +92,14 @@ export default function Technologies({ language }: TechnologiesProps) {
                                 {group.items.map((technology) => (
                                     <li
                                         key={technology.name}
-                                        className="flex w-fit items-center gap-2 rounded-lg border border-border bg-surface-soft px-3 py-2 shadow-md"
+                                        className="flex w-fit items-center gap-2 rounded-lg border border-border bg-surface-soft px-3 py-2 text-foreground shadow-md"
                                     >
                                         <technology.icon
                                             className={`text-2xl ${technology.themeAware ? "text-icon" : ""}`}
                                             style={technology.themeAware ? undefined : { color: technology.color }}
                                             aria-hidden
                                         />
-                                        <span>{technology.name}</span>
+                                        <span className="text-foreground">{technology.name}</span>
                                     </li>
                                 ))}
                             </ul>
