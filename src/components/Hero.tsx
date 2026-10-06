@@ -67,7 +67,7 @@ function Hero({ language }: HeroProps) {
                                 {translations.actions.projects}
                             </a>
 
-                            <a href="/cv-jose-carlos-onate.pdf" download
+                            <a href={`/docs/Jose_Onate_CV_${language}.pdf`} download
                                 className="inline-flex items-center gap-2 rounded-lg border border-border bg-surface-hover px-5 py-3 
                                 font-medium transition-colors hover:bg-surface-highlight">
                                 {translations.actions.downloadCv}

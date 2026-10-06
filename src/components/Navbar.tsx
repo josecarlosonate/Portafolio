@@ -16,7 +16,6 @@ const navItems = [
     { key: "home", href: "#home" },
     { key: "about", href: "#about" },
     { key: "projects", href: "#projects" },
-    { key: "experience", href: "#experience" },
     { key: "technologies", href: "#technologies" },
     { key: "contact", href: "#contact" },
 ] as const;
@@ -29,9 +28,11 @@ function Navbar({ language, setLanguage, theme, setTheme }: NavbarProps) {
         localStorage.setItem('theme', newTheme)
     };
     const [isMenuOpen, setIsMenuOpen] = useState(false);
+    const [activeHref, setActiveHref] = useState(() => window.location.hash || "#home");
+
     return (
-        <header className="w-full border-b border-border-subtle bg-background">
-            <nav className="relative z-11 mx-auto flex h-18 max-w-7xl items-center justify-between px-4 sm:px-6 lg:px-8">
+        <header className="fixed inset-x-0 top-0 z-50 w-full border-b border-border-subtle bg-background">
+            <nav className="relative mx-auto flex h-18 max-w-7xl items-center justify-between px-4 sm:px-6 lg:px-8">
                 <a href="#home" className="flex items-center gap-5" aria-label="Ir al inicio" >
                     <span className="text-[30px] font-bold leading-none tracking-wide text-primary">
                         JO
@@ -43,9 +44,9 @@ function Navbar({ language, setLanguage, theme, setTheme }: NavbarProps) {
 
                 <div className="hidden h-full items-center gap-8 lg:flex">
                     {navItems.map((item) => {
-                        const isActive = item.href === "#home";
+                        const isActive = item.href === activeHref;
                         return (
-                            <a key={item.href} href={item.href}
+                            <a key={item.href} href={item.href} onClick={() => setActiveHref(item.href)}
                                 className={`relative flex h-full items-center text-[15px] font-medium transition-colors 
                                 after:absolute after:bottom-0 after:left-0 after:h-0.5 after:w-0 after:bg-primary after:transition-all after:duration-200 
                                 ${isActive
@@ -81,7 +82,7 @@ function Navbar({ language, setLanguage, theme, setTheme }: NavbarProps) {
                         <div className="absolute top-full left-0 flex w-full flex-col rounded-lg border 
                             border-border-subtle bg-surface p-2.5 text-foreground">
                             {navItems.map((item) => {
-                                const isActive = item.href === "#home";
+                                const isActive = item.href === activeHref;
 
                                 return (
                                     <a
