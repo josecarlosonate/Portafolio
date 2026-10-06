@@ -37,7 +37,7 @@ function Projects({ language }: ProjectsProps) {
                             <article
                                 key={index}
                                 className="flex min-w-0 flex-col overflow-hidden rounded-xl border border-border
-                                    bg-surface shadow-surface transition-all duration-300 ease-out
+                                    bg-background shadow-surface transition-all duration-300 ease-out
                                     hover:-translate-y-1.5 hover:border-primary
                                     hover:shadow-[0_12px_32px_rgb(59_130_246_/_0.18)]"
                             >
@@ -76,14 +76,14 @@ function Projects({ language }: ProjectsProps) {
                                     <div className="mt-auto flex items-center gap-5 pt-6">
                                         <a
                                             href="#"
-                                            className="flex items-center gap-2 text-sm font-semibold text-foreground transition-colors hover:text-primary"
+                                            className="flex items-center gap-2 text-sm font-semibold text-primary transition-colors hover:text-primary-hover"
                                         >
                                             <Github className="size-4" />
                                             Código
                                         </a>
                                         <a
                                             href="#"
-                                            className="flex items-center gap-2 text-sm font-semibold text-foreground transition-colors hover:text-primary"
+                                            className="flex items-center gap-2 text-sm font-semibold text-primary transition-colors hover:text-primary-hover"
                                         >
                                             <ExternalLink className="size-4" />
                                             Demo
