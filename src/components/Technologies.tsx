@@ -73,6 +73,11 @@ const groups: { key: "backend" | "frontend" | "database" | "infrastructure"; ite
     },
 ];
 
+function isInView(element: HTMLElement) {
+    const rect = element.getBoundingClientRect();
+    return rect.top < window.innerHeight * 0.75 && rect.bottom > window.innerHeight * 0.25;
+}
+
 export default function Technologies({ language }: TechnologiesProps) {
     const translations = TechnologiesTranslations[language];
     const sectionRef = useRef<HTMLElement>(null);
@@ -87,21 +92,27 @@ export default function Technologies({ language }: TechnologiesProps) {
             return;
         }
 
-        const observer = new IntersectionObserver(
-            ([entry]) => {
-                if (!entry.isIntersecting) return;
-                setVisible(true);
-                observer.disconnect();
-            },
-            { threshold: 0.25 }
-        );
+        const update = () => setVisible(isInView(node));
+        update();
 
+        const observer = new IntersectionObserver(update, {
+            threshold: [0, 0.15, 0.35],
+        });
         observer.observe(node);
-        return () => observer.disconnect();
+        window.addEventListener("hashchange", update);
+
+        return () => {
+            observer.disconnect();
+            window.removeEventListener("hashchange", update);
+        };
     }, []);
 
     return (
-        <section id="technologies" ref={sectionRef} className="flex min-h-screen w-full items-center text-foreground">
+        <section
+            id="technologies"
+            ref={sectionRef}
+            className="flex min-h-screen w-full scroll-mt-20 items-center text-foreground"
+        >
             <div className="relative z-10 mx-auto flex w-full max-w-7xl flex-col justify-center px-6 py-24">
                 <h2
                     className={`text-4xl font-bold text-primary transition-all duration-700 md:text-5xl ${
