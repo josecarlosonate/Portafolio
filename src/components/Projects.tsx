@@ -50,7 +50,7 @@ function Projects({ language }: ProjectsProps) {
                                 </div>
 
                                 <div className="flex flex-1 flex-col p-5">
-                                    <h3 className="text-lg font-bold text-foreground">
+                                    <h3 className="text-lg font-bold text-primary">
                                         StockCore
                                     </h3>
 
