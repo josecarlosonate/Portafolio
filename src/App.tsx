@@ -5,6 +5,7 @@ import type { Theme } from "./types/theme";
 import Hero from "./components/Hero";
 import About from "./components/About";
 import DotGrid from "./components/DotGrid/DotGrid";
+import Technologies from "./components/Technologies";
 
 
 function getInitialTheme(): Theme {
@@ -32,6 +33,7 @@ function App() {
       <div className="relative z-10 bg-background">
         <Hero language={language} />
         <About language={language} />
+        <Technologies language={language} />
 
         <div className="absolute inset-0 z-0">
           <DotGrid
