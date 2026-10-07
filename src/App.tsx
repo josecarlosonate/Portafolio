@@ -9,6 +9,7 @@ import Technologies from "./components/Technologies";
 import Footer from "./components/Footer";
 import Contact from "./components/Contact";
 import { Toaster } from "sonner";
+import ScrollToTop from "./components/ScrollToTop";
 
 
 function getInitialTheme(): Theme {
@@ -67,6 +68,7 @@ function App() {
           },
         }}
       />
+      <ScrollToTop />
     </>
   );
 }
