@@ -6,11 +6,11 @@ import Hero from "./components/Hero";
 import About from "./components/About";
 import DotGrid from "./components/DotGrid/DotGrid";
 import Technologies from "./components/Technologies";
+import Projects from "./components/Projects";
 import Footer from "./components/Footer";
 import Contact from "./components/Contact";
 import { Toaster } from "sonner";
 import ScrollToTop from "./components/ScrollToTop";
-
 
 function getInitialTheme(): Theme {
   const savedTheme = localStorage.getItem("theme");
@@ -38,6 +38,7 @@ function App() {
         <Hero language={language} />
         <About language={language} />
         <Technologies language={language} />
+        <Projects language={language} />
         <Contact language={language} />
         <Footer language={language} />
 
