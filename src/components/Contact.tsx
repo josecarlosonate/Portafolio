@@ -75,7 +75,7 @@ const submitAction = async (previousState: ContactFormState, formData: FormData)
 function Contact({ language }: ContactProps) {
     const translations = ContactTranslations[language]
     const [state, formAction, isPending] = useActionState(submitAction, initialState);
-    console.log(state.status, state.submissionId);
+
     useEffect(() => {
         if (state.submissionId === 0) return;
         if (state.status === "success") toast.success(translations.form.success);

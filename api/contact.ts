@@ -9,19 +9,25 @@ type ContactRequest = {
     message: string;
 };
 
-export async function POST(request: Request) {
-    const body: ContactRequest = await request.json();
+const isContactRequest = (body: unknown): body is ContactRequest => {
+    if (typeof body !== "object" || body === null) return false;
 
-    // 1. Validación estructural
-    if (
-        typeof body.name !== "string" ||
-        typeof body.email !== "string" ||
-        typeof body.message !== "string"
-    ) {
-        return Response.json(
-            { success: false },
-            { status: 400 }
-        );
+    const data = body as Record<string, unknown>;
+
+    return typeof data.name === "string" && typeof data.email === "string" && typeof data.message === "string";
+};
+
+export async function POST(request: Request) {
+    let body: unknown;
+
+    try {
+        body = await request.json();
+    } catch {
+        return Response.json({ success: false }, { status: 400 });
+    }
+
+    if (!isContactRequest(body)) {
+        return Response.json({ success: false }, { status: 400 });
     }
 
     // 2. Normalización
@@ -53,20 +59,21 @@ export async function POST(request: Request) {
     });
 
     // 4. Envio
-    const { error } = await resend.emails.send({
-        from: "Portafolio <onboarding@resend.dev>",
-        to: "ingeniero.josec@gmail.com",
-        replyTo: email,
-        ...contactEmail
-    });
+    try {
+        const { error } = await resend.emails.send({
+            from: "Portafolio <onboarding@resend.dev>",
+            to: "ingeniero.josec@gmail.com",
+            replyTo: email,
+            ...contactEmail
+        });
 
-    if (error) {
-        console.error("Resend error:", error);
-
-        return Response.json(
-            { success: false },
-            { status: 500 }
-        );
+        if (error) {
+            console.error("Resend error:", error);
+            return Response.json({ success: false }, { status: 500 });
+        }
+    } catch (error) {
+        console.error("Unexpected Resend error:", error);
+        return Response.json({ success: false }, { status: 500 });
     }
 
     return Response.json({
