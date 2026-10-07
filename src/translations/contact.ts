@@ -47,6 +47,8 @@ type ContactTranslations = {
                 maxLength: string,
             }
         }
+        success: string;
+        error: string;
     }
 }
 
@@ -98,7 +100,9 @@ export const ContactTranslations: Record<Language, ContactTranslations> = {
                     minLength: "El mensaje debe tener al menos 10 caracteres.",
                     maxLength: "El mensaje no puede superar los 2000 caracteres.",
                 },
-            }
+            },
+            success: "Mensaje enviado correctamente. Te responderé lo antes posible.",
+            error: "No se pudo enviar el mensaje. Inténtalo de nuevo.",
         }
     },
     EN: {
@@ -147,7 +151,9 @@ export const ContactTranslations: Record<Language, ContactTranslations> = {
                     minLength: "Message must be at least 10 characters long.",
                     maxLength: "Message cannot exceed 2000 characters.",
                 },
-            }
+            },
+            success: "Message sent successfully. I'll get back to you as soon as possible.",
+            error: "The message could not be sent. Please try again.",
         }
     }
 }

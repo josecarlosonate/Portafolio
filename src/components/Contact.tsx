@@ -2,14 +2,16 @@ import { FaEnvelope, FaGithub, FaLinkedin, FaWhatsapp } from "react-icons/fa";
 import { ContactTranslations } from "../translations/contact"
 import type { Language } from "../types/language"
 import { ExternalLink } from "lucide-react";
-import { useActionState } from "react";
+import { useActionState, useEffect } from "react";
+import { toast } from "sonner";
 
 type ContactProps = {
     language: Language
 }
 
 type ContactFormState = {
-    success: boolean;
+    status: "idle" | "success" | "error";
+    submissionId: number;
     errors: {
         name?: "minLength";
         email?: "invalid";
@@ -18,47 +20,67 @@ type ContactFormState = {
 };
 
 const initialState: ContactFormState = {
-    success: false,
+    status: "idle",
+    submissionId: 0,
     errors: {},
 };
 
 const getTextValue = (formData: FormData, key: string): string => {
     const value = formData.get(key);
-
     return typeof value === "string" ? value.trim() : "";
 };
 
-const submitAction = (previousState: ContactFormState, formData: FormData): ContactFormState => {
+const submitAction = async (previousState: ContactFormState, formData: FormData): Promise<ContactFormState> => {
     const name = getTextValue(formData, "name");
     const email = getTextValue(formData, "email");
     const message = getTextValue(formData, "message");
     const errors: ContactFormState["errors"] = {};
-
-    if (name.length < 2) errors.name = "minLength";
-
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 
+    if (name.length < 2) errors.name = "minLength";
     if (!email || !emailRegex.test(email)) errors.email = "invalid";
     if (message.length < 10) errors.message = "minLength";
-
     if (message.length > 2000) errors.message = "maxLength";
 
     if (Object.keys(errors).length > 0) {
         return {
-            success: false,
+            status: "idle",
+            submissionId: previousState.submissionId + 1,
             errors,
         };
     }
 
     // Aquí lógica de envío
-    console.log({ name, email, message });
+    const response = await fetch("/api/contact", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ name, email, message }),
+    });
 
-    return { success: true, errors: {} };
+    if (!response.ok) {
+        return {
+            status: "error",
+            submissionId: previousState.submissionId + 1,
+            errors: {},
+        };
+    }
+
+    return {
+        status: "success",
+        submissionId: previousState.submissionId + 1,
+        errors: {},
+    };
 };
 
 function Contact({ language }: ContactProps) {
     const translations = ContactTranslations[language]
     const [state, formAction, isPending] = useActionState(submitAction, initialState);
+    console.log(state.status, state.submissionId);
+    useEffect(() => {
+        if (state.submissionId === 0) return;
+        if (state.status === "success") toast.success(translations.form.success);
+        if (state.status === "error") toast.error(translations.form.error);
+    }, [state.submissionId, translations.form.success, translations.form.error]);
 
     return (
         <section id="contact" className="scroll-mt-15 w-full lg:min-h-screen text-foreground">

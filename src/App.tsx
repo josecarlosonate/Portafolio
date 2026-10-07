@@ -8,6 +8,7 @@ import DotGrid from "./components/DotGrid/DotGrid";
 import Technologies from "./components/Technologies";
 import Footer from "./components/Footer";
 import Contact from "./components/Contact";
+import { Toaster } from "sonner";
 
 
 function getInitialTheme(): Theme {
@@ -54,6 +55,18 @@ function App() {
         </div>
 
       </div>
+      <Toaster
+        position="top-right"
+        toastOptions={{
+          classNames: {
+            toast: "!bg-surface !border-border !text-foreground !shadow-lg",
+            title: "!text-foreground",
+            description: "!text-muted",
+            success: "!bg-surface !border-green-500/40 !text-foreground",
+            error: "!bg-surface !border-red-500/40 !text-foreground",
+          },
+        }}
+      />
     </>
   );
 }
