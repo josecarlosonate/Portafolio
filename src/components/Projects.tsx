@@ -1,42 +1,25 @@
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { Code2, ExternalLink } from "lucide-react";
 import type { Language } from "../types/language";
+import type { Theme } from "../types/theme";
 import type { Project } from "../types/project";
 import { ProjectsTranslations } from "../translations/projects";
+import projectsData from "../data/projects.json" with { type: "json" };
 
 type ProjectsProps = {
     language: Language;
+    theme: Theme;
 };
+
+const projects = (projectsData as Project[]).slice().sort((a, b) => a.order - b.order);
 
 function pad(value: number) {
     return String(value).padStart(2, "0");
 }
 
-export default function Projects({ language }: ProjectsProps) {
+export default function Projects({ language, theme }: ProjectsProps) {
     const translations = ProjectsTranslations[language];
-    const [projects, setProjects] = useState<Project[]>([]);
     const [activeIndex, setActiveIndex] = useState(0);
-    const [status, setStatus] = useState<"loading" | "ready" | "error">("loading");
-
-    useEffect(() => {
-        const controller = new AbortController();
-
-        fetch("/api/projects", { signal: controller.signal })
-            .then(async (response) => {
-                if (!response.ok) throw new Error("projects request failed");
-                const data = (await response.json()) as { projects?: Project[] };
-                setProjects(data.projects ?? []);
-                setActiveIndex(0);
-                setStatus("ready");
-            })
-            .catch((error: unknown) => {
-                if (error instanceof DOMException && error.name === "AbortError") return;
-                setStatus("error");
-            });
-
-        return () => controller.abort();
-    }, []);
-
     const project = projects[activeIndex];
 
     return (
@@ -49,15 +32,7 @@ export default function Projects({ language }: ProjectsProps) {
                     <p className="mt-3 text-lg leading-8 text-muted">{translations.subtitle}</p>
                 </div>
 
-                {status === "loading" && (
-                    <p className="mt-10 text-sm text-muted">{translations.loading}</p>
-                )}
-
-                {status === "error" && (
-                    <p className="mt-10 text-sm text-muted">{translations.error}</p>
-                )}
-
-                {status === "ready" && projects.length === 0 && (
+                {projects.length === 0 && (
                     <p className="mt-10 text-sm text-muted">{translations.empty}</p>
                 )}
 
@@ -119,14 +94,12 @@ export default function Projects({ language }: ProjectsProps) {
                                 </div>
                             </div>
 
-                            <div className="relative">
-                                <div className="overflow-hidden rounded-3xl border border-primary/40 bg-surface p-3 shadow-surface md:p-4">
-                                    <img
-                                        src={project.image}
-                                        alt={project.title[language]}
-                                        className="aspect-video w-full rounded-2xl border border-border-subtle object-cover object-top"
-                                    />
-                                </div>
+                            <div className="overflow-hidden rounded-3xl border border-primary/40 bg-surface p-3 shadow-surface md:p-4">
+                                <img
+                                    src={theme === "dark" && project.imageDark ? project.imageDark : project.image}
+                                    alt={project.title[language]}
+                                    className="aspect-video w-full rounded-2xl border border-border-subtle object-cover object-top"
+                                />
                             </div>
                         </div>
 

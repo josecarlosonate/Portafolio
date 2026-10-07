@@ -1,0 +1,23 @@
+[
+  {
+    "slug": "stockcore",
+    "order": 1,
+    "title": {
+      "ES": "StockCore",
+      "EN": "StockCore"
+    },
+    "challenge": {
+      "ES": "El inventario se actualizaba con procesos manuales y las ventas podían pisarse cuando dos operaciones tocaban el mismo producto al mismo tiempo.",
+      "EN": "Inventory was updated through manual processes, and sales could overwrite each other when two operations touched the same product at once."
+    },
+    "solution": {
+      "ES": "API REST para gestionar inventario, ventas y movimientos de stock, con operaciones seguras y control de concurrencia.",
+      "EN": "REST API to manage inventory, sales, and stock movements, with safe operations and concurrency control."
+    },
+    "stack": ["Laravel", "PostgreSQL", "REST API"],
+    "image": "/images/projects/stockcore.png",
+    "imageDark": "/images/projects/stockcore_dark.png",
+    "repoUrl": null,
+    "liveUrl": null
+  }
+]

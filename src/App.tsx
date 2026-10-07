@@ -38,7 +38,7 @@ function App() {
         <Hero language={language} />
         <About language={language} />
         <Technologies language={language} />
-        <Projects language={language} />
+        <Projects language={language} theme={theme} />
         <Contact language={language} />
         <Footer language={language} />
 

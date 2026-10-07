@@ -11,6 +11,7 @@ export type Project = {
     solution: LocalizedText;
     stack: string[];
     image: string;
+    imageDark?: string;
     repoUrl: string | null;
     liveUrl: string | null;
 };
