@@ -20,7 +20,7 @@ const navItems = [
     { key: "contact", href: "#contact" },
 ] as const;
 
-const sectionIds = ["home", "about", "technologies"];
+const sectionIds = ["home", "about", "technologies", "contact"];
 
 function Navbar({ language, setLanguage, theme, setTheme }: NavbarProps) {
     const translations = NavbarTranslations[language];
