@@ -10,6 +10,7 @@ import Footer from "./components/Footer";
 import Contact from "./components/Contact";
 import { Toaster } from "sonner";
 import ScrollToTop from "./components/ScrollToTop";
+import Projects from "./components/Projects";
 
 
 function getInitialTheme(): Theme {
@@ -37,6 +38,7 @@ function App() {
       <div className="relative z-10 bg-background">
         <Hero language={language} />
         <About language={language} />
+        <Projects language={language} />
         <Technologies language={language} />
         <Contact language={language} />
         <Footer language={language} />
