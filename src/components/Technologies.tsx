@@ -13,6 +13,7 @@ import {
     SiMysql,
     SiPhp,
     SiPostgresql,
+    SiPostman,
     SiReact,
     SiTailwindcss,
     SiTypescript,
@@ -76,6 +77,7 @@ const groups: {
                 { name: "GitHub", icon: FaGithub, themeAware: true },
                 { name: "Azure DevOps", icon: VscAzureDevops, color: "#0078D7" },
                 { name: "Jenkins", icon: SiJenkins, color: "#D24939" },
+                { name: "Postman", icon: SiPostman, color: "#FF6C37" },
             ],
         },
     ];
