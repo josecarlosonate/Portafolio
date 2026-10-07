@@ -33,7 +33,20 @@ type ContactTranslations = {
             label: string,
             placeholder: string
         },
-        submit: string
+        submit: string,
+        submitting: string,
+        errors: {
+            name: {
+                minLength: string,
+            },
+            email: {
+                invalid: string,
+            },
+            message: {
+                minLength: string,
+                maxLength: string,
+            }
+        }
     }
 }
 
@@ -72,7 +85,20 @@ export const ContactTranslations: Record<Language, ContactTranslations> = {
                 label: "Mensaje",
                 placeholder: "Tu mensaje..."
             },
-            submit: "Enviar mensaje"
+            submit: "Enviar mensaje",
+            submitting: "Enviando...",
+            errors: {
+                name: {
+                    minLength: "El nombre debe tener al menos 2 caracteres.",
+                },
+                email: {
+                    invalid: "Por favor, ingresa un correo electrónico válido.",
+                },
+                message: {
+                    minLength: "El mensaje debe tener al menos 10 caracteres.",
+                    maxLength: "El mensaje no puede superar los 2000 caracteres.",
+                },
+            }
         }
     },
     EN: {
@@ -108,7 +134,20 @@ export const ContactTranslations: Record<Language, ContactTranslations> = {
                 "label": "Message",
                 placeholder: "Your message..."
             },
-            submit: "Send message"
+            submit: "Send message",
+            submitting: "Sending...",
+            errors: {
+                name: {
+                    minLength: "Name must be at least 2 characters long.",
+                },
+                email: {
+                    invalid: "Please enter a valid email address.",
+                },
+                message: {
+                    minLength: "Message must be at least 10 characters long.",
+                    maxLength: "Message cannot exceed 2000 characters.",
+                },
+            }
         }
     }
 }

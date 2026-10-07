@@ -2,13 +2,63 @@ import { FaEnvelope, FaGithub, FaLinkedin, FaWhatsapp } from "react-icons/fa";
 import { ContactTranslations } from "../translations/contact"
 import type { Language } from "../types/language"
 import { ExternalLink } from "lucide-react";
+import { useActionState } from "react";
 
 type ContactProps = {
     language: Language
 }
 
+type ContactFormState = {
+    success: boolean;
+    errors: {
+        name?: "minLength";
+        email?: "invalid";
+        message?: "minLength" | "maxLength";
+    };
+};
+
+const initialState: ContactFormState = {
+    success: false,
+    errors: {},
+};
+
+const getTextValue = (formData: FormData, key: string): string => {
+    const value = formData.get(key);
+
+    return typeof value === "string" ? value.trim() : "";
+};
+
+const submitAction = (previousState: ContactFormState, formData: FormData): ContactFormState => {
+    const name = getTextValue(formData, "name");
+    const email = getTextValue(formData, "email");
+    const message = getTextValue(formData, "message");
+    const errors: ContactFormState["errors"] = {};
+
+    if (name.length < 2) errors.name = "minLength";
+
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+
+    if (!email || !emailRegex.test(email)) errors.email = "invalid";
+    if (message.length < 10) errors.message = "minLength";
+
+    if (message.length > 2000) errors.message = "maxLength";
+
+    if (Object.keys(errors).length > 0) {
+        return {
+            success: false,
+            errors,
+        };
+    }
+
+    // Aquí lógica de envío
+    console.log({ name, email, message });
+
+    return { success: true, errors: {} };
+};
+
 function Contact({ language }: ContactProps) {
     const translations = ContactTranslations[language]
+    const [state, formAction, isPending] = useActionState(submitAction, initialState);
 
     return (
         <section id="contact" className="scroll-mt-15 w-full lg:min-h-screen text-foreground">
@@ -109,32 +159,51 @@ function Contact({ language }: ContactProps) {
                     </div>
 
                     <div className="basis-2/5">
-                        <form>
+                        <form action={formAction}>
                             <div className="rounded-2xl border border-border bg-surface p-6 text-foreground shadow-surface
-                                transition-all duration-300 ease-out hover:-translate-y-1.5 hover:scale-[1.03]
+                                transition-all duration-300 ease-out
                                 hover:border-card-border hover:ring-1 hover:ring-card-border">
                                 <label className="block text-sm font-medium tracking-wide text-muted uppercase">
                                     {translations.form.name.label}
                                     <input type="text" name="name" required placeholder={translations.form.name.placeholder}
+                                        aria-invalid={Boolean(state.errors.name)} aria-describedby={state.errors.name ? "name-error" : undefined}
                                         className="mt-2 w-full rounded-lg border border-border bg-background px-3 py-3 
                                         text-foreground outline-none placeholder:text-muted focus:border-primary"/>
                                 </label>
+                                {state.errors.name && (
+                                    <span id="name-error" className="text-sm text-red-500">
+                                        {translations.form.errors.name[state.errors.name]}
+                                    </span>
+                                )}
                                 <label className="mt-4 block text-sm font-medium tracking-wide text-muted uppercase">
                                     {translations.form.email.label}
                                     <input type="email" name="email" required placeholder={translations.form.email.placeholder}
+                                        aria-invalid={Boolean(state.errors.email)} aria-describedby={state.errors.email ? "email-error" : undefined}
                                         className="mt-2 w-full rounded-lg border border-border bg-background px-3 py-3 
                                         text-foreground outline-none placeholder:text-muted focus:border-primary"/>
                                 </label>
+                                {state.errors.email && (
+                                    <span id="email-error" className="text-sm text-red-500">
+                                        {translations.form.errors.email[state.errors.email]}
+                                    </span>
+                                )}
                                 <label className="mt-4 block text-sm font-medium tracking-wide text-muted uppercase">
                                     {translations.form.message.label}
-                                    <textarea name="message" required rows={5} placeholder={translations.form.message.placeholder}
+                                    <textarea name="message" rows={5} autoComplete="off"
+                                        aria-invalid={Boolean(state.errors.message)} aria-describedby={state.errors.message ? "message-error" : undefined}
+                                        placeholder={translations.form.message.placeholder}
                                         className="mt-2 w-full resize-y rounded-lg border border-border bg-background px-3 
                                         py-3 text-foreground outline-none placeholder:text-muted focus:border-primary"/>
                                 </label>
-                                <button type="submit"
+                                {state.errors.message && (
+                                    <span id="message-error" className="text-sm text-red-500">
+                                        {translations.form.errors.message[state.errors.message]}
+                                    </span>
+                                )}
+                                <button type="submit" disabled={isPending}
                                     className="mt-6 w-full rounded-lg bg-primary px-5 py-3 font-medium tracking-wide 
-                                    text-on-primary uppercase hover:bg-primary-hover cursor-pointer">
-                                    {translations.form.submit}
+                                    text-on-primary uppercase hover:bg-primary-hover cursor-pointer disabled:cursor-not-allowed disabled:opacity-60">
+                                    {isPending ? translations.form.submitting : translations.form.submit}
                                 </button>
                             </div>
                         </form>
