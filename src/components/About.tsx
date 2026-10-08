@@ -27,13 +27,13 @@ export default function About({ language }: AboutProps) {
                         <p className="mt-5 text-sm leading-7 text-muted">
                             {translations.description}
                         </p>
-                        <button type="button"
+                        <a href="#projects"
                             className="mt-6 inline-flex items-center gap-3 rounded-lg border 
                             border-border bg-surface px-4 py-3 text-sm font-medium text-foreground 
                             transition-colors hover:bg-surface-hover cursor-pointer">
                             {translations.action}
                             <ArrowRight className="size-4 text-primary" />
-                        </button>
+                        </a>
                     </div>
 
                     <div className="p-6">
