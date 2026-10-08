@@ -218,7 +218,7 @@ function Contact({ language }: ContactProps) {
                                 )}
                                 <label className="mt-4 block text-sm font-medium tracking-wide text-muted uppercase">
                                     {translations.form.message.label}
-                                    <textarea name="message" rows={5} autoComplete="off"
+                                    <textarea name="message" rows={5} autoComplete="off" required
                                         aria-invalid={Boolean(state.errors.message)} aria-describedby={state.errors.message ? "message-error" : undefined}
                                         placeholder={translations.form.message.placeholder}
                                         className="mt-2 w-full resize-y rounded-lg border border-border bg-background px-3 

@@ -21,12 +21,12 @@ export const ProjectsTranslations: Record<Language, ProjectsTranslation> = {
             showLess: "Ver menos",
         },
         subTitleLeft: "Tecnologías principales",
-        btnCode: "Codigo",
+        btnCode: "Código",
         btnView: "Ver Demo"
     },
     EN: {
         titleLeft: "FEATURED PROJECT",
-        titleRight: "GALERY",
+        titleRight: "GALLERY",
         description: {
             showMore: "Show more",
             showLess: "Show less",
