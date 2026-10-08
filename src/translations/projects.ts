@@ -22,7 +22,7 @@ export const ProjectsTranslations: Record<Language, ProjectsTranslation> = {
         },
         subTitleLeft: "Tecnologías principales",
         btnCode: "Codigo",
-        btnView: "Ver Proyecto"
+        btnView: "Ver Demo"
     },
     EN: {
         titleLeft: "FEATURED PROJECT",
@@ -33,6 +33,6 @@ export const ProjectsTranslations: Record<Language, ProjectsTranslation> = {
         },
         subTitleLeft: "Core technologies",
         btnCode: "Code",
-        btnView: "View Project"
+        btnView: "View Demo"
     }
 }
