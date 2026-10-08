@@ -1,17 +1,38 @@
 import type { Language } from "../types/language";
 
 type ProjectsTranslation = {
-    title: string;
-    action: string;
+    titleLeft: string;
+    titleRight: string;
+    description: {
+        showMore: string;
+        showLess: string;
+    };
+    subTitleLeft: string;
+    btnCode: string;
+    btnView: string;
 };
 
 export const ProjectsTranslations: Record<Language, ProjectsTranslation> = {
     ES: {
-        title: "Proyectos destacados",
-        action: "Ver todos los proyectos",
+        titleLeft: "PROYECTO DESTACADO",
+        titleRight: "GALERIA",
+        description: {
+            showMore: "Ver más",
+            showLess: "Ver menos",
+        },
+        subTitleLeft: "Tecnologías principales",
+        btnCode: "Codigo",
+        btnView: "Ver Proyecto"
     },
     EN: {
-        title: "Featured projects",
-        action: "View all projects",
+        titleLeft: "FEATURED PROJECT",
+        titleRight: "GALERY",
+        description: {
+            showMore: "Show more",
+            showLess: "Show less",
+        },
+        subTitleLeft: "Core technologies",
+        btnCode: "Code",
+        btnView: "View Project"
     }
 }
