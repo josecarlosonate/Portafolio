@@ -68,7 +68,7 @@ function Projects({ language }: ProjectsProps) {
         }, 4000);
 
         return () => clearInterval(interval);
-    }, [project.id, project.images.length]);
+    }, [project.id, imageIndex]);
 
     return (
         <>
