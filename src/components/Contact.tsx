@@ -50,26 +50,33 @@ const submitAction = async (previousState: ContactFormState, formData: FormData)
         };
     }
 
-    // Aquí lógica de envío
-    const response = await fetch("/api/contact", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ name, email, message }),
-    });
+    try {
+        const response = await fetch("/api/contact", {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({ name, email, message }),
+        });
 
-    if (!response.ok) {
+        if (!response.ok) {
+            return {
+                status: "error",
+                submissionId: previousState.submissionId + 1,
+                errors: {},
+            };
+        }
+
+        return {
+            status: "success",
+            submissionId: previousState.submissionId + 1,
+            errors: {},
+        };
+    } catch {
         return {
             status: "error",
             submissionId: previousState.submissionId + 1,
             errors: {},
         };
     }
-
-    return {
-        status: "success",
-        submissionId: previousState.submissionId + 1,
-        errors: {},
-    };
 };
 
 function Contact({ language }: ContactProps) {
@@ -211,7 +218,7 @@ function Contact({ language }: ContactProps) {
                                 )}
                                 <label className="mt-4 block text-sm font-medium tracking-wide text-muted uppercase">
                                     {translations.form.message.label}
-                                    <textarea name="message" rows={5} autoComplete="off"
+                                    <textarea name="message" rows={5} autoComplete="off" required
                                         aria-invalid={Boolean(state.errors.message)} aria-describedby={state.errors.message ? "message-error" : undefined}
                                         placeholder={translations.form.message.placeholder}
                                         className="mt-2 w-full resize-y rounded-lg border border-border bg-background px-3 

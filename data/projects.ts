@@ -64,8 +64,13 @@ export const projects: Project[] = [
         },
         technologies: ["PHP", "Laravel", "PostgreSQL", "Swagger"],
         repositoryUrl: "https://github.com/josecarlosonate/StockCore",
-        demoUrl: "https://stockcore-api.docs.buildwithfern.com/stock-core-api/introduction",
-        images: [],
+        demoUrl: "https://api.josecarlosonate.com/stock-core-api/introduction",
+        images: [
+            "/images/projects/stockcore/introduction.png",
+            "/images/projects/stockcore/list-products.png",
+            "/images/projects/stockcore/login.png",
+            "/images/projects/stockcore/create-order.png",
+        ],
     },
     {
         id: "zendticket",
@@ -86,6 +91,11 @@ export const projects: Project[] = [
         repositoryUrl: "https://github.com/josecarlosonate/ZendTicket",
         demoUrl: "",
         images: [
+            "/images/projects/zendticket/index.png",
+            "/images/projects/zendticket/section_2.png",
+            "/images/projects/zendticket/sectores.png",
+            "/images/projects/zendticket/login.png",
+            "/images/projects/zendticket/dashboard.png",
         ],
     },
 ];

@@ -31,6 +31,10 @@ function App() {
     document.documentElement.classList.toggle("dark", theme === "dark");
   }, [theme]);
 
+  useEffect(() => {
+    document.documentElement.lang = language === "ES" ? "es" : "en";
+  }, [language]);
+
   return (
     <>
       <Navbar language={language} setLanguage={setLanguage} theme={theme} setTheme={setTheme} />
